@@ -21,7 +21,7 @@ layout(std140) uniform CPU
         float gl_ClipDistance[];
     };
 layout (location = 0) in vec3 Position;
-layout(location = 2) in vec3 Normal;
+//layout(location = 2) in vec3 Normal;
 layout(location = 3) in vec3 Texture;
 
 out vec3 v_Pos ;

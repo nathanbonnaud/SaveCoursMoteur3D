@@ -10,6 +10,7 @@
 layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
+	sampler2D my_sampler3;
 	vec3 pos_lum;
 	vec3 pos_cam;
 };
@@ -25,9 +26,11 @@ void main()
 	
 	vec4 colorTmp1 = texture(my_sampler, coord);
 	vec4 colorTmp2 = texture(my_sampler2, coord);
+	vec4 colorTmp3 = texture(my_sampler3, coord);
+	
 	vec3 tempo = (colorTmp2.w * colorTmp2.xyz + (1.0 - colorTmp2.w) * colorTmp1.xyz);
 	
-	vec3 v_Normal = colorTmp2.xyz/colorTmp2.w * 2 - 1;
+	vec3 v_Normal = colorTmp3.xyz;
 	//vec4 pixel = gl_FragCoord/(v_screenSize.x);
 	//Color = (pixel); 
 	vec3 v_Lum = normalize(pos_lum - v_Pos);

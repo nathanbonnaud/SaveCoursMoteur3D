@@ -24,6 +24,7 @@ class TPMaterial : public MaterialGL
 		GPUint* height;
 		
 		GPUsampler* mySampler2;
+		GPUsampler* mySampler3;
 		GPUsampler* mySampler;
 
 };
