@@ -30,10 +30,10 @@ void main()
 	
 	vec3 tempo = (colorTmp2.w * colorTmp2.xyz + (1.0 - colorTmp2.w) * colorTmp1.xyz);
 	
-	vec3 v_Normal = colorTmp3.xyz;
+	vec3 v_Normal = colorTmp3.xyz/colorTmp3.w*2-1;
 	//vec4 pixel = gl_FragCoord/(v_screenSize.x);
 	//Color = (pixel); 
-	vec3 v_Lum = normalize(pos_lum - v_Pos);
+	vec3 v_Lum = normalize(v_Pos- pos_lum);
 
 	// "dot" calcule de cosinus entre 2 vecteurs //
 	float cosAngle = dot(v_Lum, v_Normal);
