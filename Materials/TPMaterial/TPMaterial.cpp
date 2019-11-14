@@ -23,6 +23,10 @@ TPMaterial::TPMaterial(std::string name):
 	mySampler3 = fp->uniforms()->getGPUsampler("my_sampler3");
 	mySampler3->Set(myTexture3.getHandle());
 
+	/* 4eme Texture*/
+	GPUTexture2D myTexture4 = GPUTexture2D(ressourceTexPath + "Bunny_N.jpg");
+	mySampler4 = fp->uniforms()->getGPUsampler("my_sampler4");
+	mySampler4->Set(myTexture4.getHandle());
 
 	color = vp->uniforms()->getGPUvec3("CPU_color");
 	modelViewProj = vp->uniforms()->getGPUmat4("MVP");
