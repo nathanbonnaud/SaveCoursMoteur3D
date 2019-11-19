@@ -9,24 +9,24 @@ TPMaterial::TPMaterial(std::string name):
 	MaterialGL(name,"TPMaterial")
 {
 	/*1ere Texture*/
-	GPUTexture2D myTexture = GPUTexture2D(ressourceTexPath + "Bunny1.png");
+	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "bricks2_color.jpg");
 	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
-	mySampler->Set(myTexture.getHandle());
+	mySampler->Set(myTexture->getHandle());
 
 	/* 2eme Texture*/
-	GPUTexture2D myTexture2 = GPUTexture2D(ressourceTexPath + "Bunny2.png");
+	GPUTexture2D* myTexture2 = new GPUTexture2D(ressourceTexPath + "Bunny2.png");
 	mySampler2 = fp->uniforms()->getGPUsampler("my_sampler2");
-	mySampler2->Set(myTexture2.getHandle());
+	mySampler2->Set(myTexture2->getHandle());
 
 	/* 3eme Texture*/
-	GPUTexture2D myTexture3 = GPUTexture2D(ressourceTexPath + "Bunny_nm.jpg");
+	GPUTexture2D* myTexture3 = new GPUTexture2D(ressourceTexPath + "Bunny_nm.jpg");
 	mySampler3 = fp->uniforms()->getGPUsampler("my_sampler3");
-	mySampler3->Set(myTexture3.getHandle());
+	mySampler3->Set(myTexture3->getHandle());
 
 	/* 4eme Texture*/
-	GPUTexture2D myTexture4 = GPUTexture2D(ressourceTexPath + "Bunny_N.jpg");
+	GPUTexture2D* myTexture4 = new GPUTexture2D(ressourceTexPath + "brick2_parallax.png");
 	mySampler4 = fp->uniforms()->getGPUsampler("my_sampler4");
-	mySampler4->Set(myTexture4.getHandle());
+	mySampler4->Set(myTexture4->getHandle());
 
 	color = vp->uniforms()->getGPUvec3("CPU_color");
 	modelViewProj = vp->uniforms()->getGPUmat4("MVP");
@@ -68,7 +68,7 @@ void TPMaterial::render(Node *o)
 void TPMaterial::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->getFrame()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
-	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
+	posLum->Set(Scene::getInstance()->getSceneNode()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
 
 	/*
 	t = (int)time(NULL);

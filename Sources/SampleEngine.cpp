@@ -17,7 +17,6 @@ EngineGL (width, height)
 {
 	LOG_INFO << "# - " << __FUNCTION__ << std::endl;
 	
-	
 }
 
 SampleEngine::~SampleEngine()
@@ -31,7 +30,8 @@ bool SampleEngine::init(std::string filename)
 {
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
-
+	myFilter = Scene::getInstance()->getResource<GPUFBO>("filter");
+	myFilter->createTexture2DAttachments(1024, 1024);
 	//Création d'un objet, méthode condensée
 	//addObject("Bunny",ressourceObjPath + "Bunny.obj",material);
 
@@ -51,11 +51,16 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
+	myFilter->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (unsigned int i = 0; i < renderedNodes->nodes.size(); i++)
 		renderedNodes->nodes[i]->render();
 	
 	drawBBAndLight();
+	
+
+	myFilter->disable();
+	myFilter->display();
 }
 
 void SampleEngine::animate (const int elapsedTime)

@@ -21,6 +21,9 @@ class SampleEngine : public EngineGL
 		virtual bool init(std::string filename = "");
 		virtual void render();
 		virtual void animate(const int elapsedTime);
+
+		GPUFBO* myFilter;
+		GPUTexture2D* myText;
 		
 
 	protected:
