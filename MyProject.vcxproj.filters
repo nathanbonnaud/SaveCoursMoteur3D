@@ -61,5 +61,17 @@
     <None Include="Materials\TPMaterial\Shaders\Main-VS.glsl">
       <Filter>Materials\TPMaterial</Filter>
     </None>
+    <None Include="Effects\Blur\Shaders\Base-VS.glsl">
+      <Filter>Effects\Blur</Filter>
+    </None>
+    <None Include="Effects\Blur\Shaders\Bloom-FS.glsl">
+      <Filter>Effects\Blur</Filter>
+    </None>
+    <None Include="Effects\Blur\Shaders\Copy-FS.glsl">
+      <Filter>Effects\Blur</Filter>
+    </None>
+    <None Include="Effects\Blur\Shaders\Pass-FS.glsl">
+      <Filter>Effects\Blur</Filter>
+    </None>
   </ItemGroup>
 </Project>

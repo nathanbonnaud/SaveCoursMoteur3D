@@ -34,6 +34,10 @@
     <ClInclude Include="Sources\SampleEngine_Deferred.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Effects\Blur\Shaders\Base-VS.glsl" />
+    <None Include="Effects\Blur\Shaders\Bloom-FS.glsl" />
+    <None Include="Effects\Blur\Shaders\Copy-FS.glsl" />
+    <None Include="Effects\Blur\Shaders\Pass-FS.glsl" />
     <None Include="Materials\TPMaterial\Shaders\Main-FS.glsl" />
     <None Include="Materials\TPMaterial\Shaders\Main-VS.glsl" />
   </ItemGroup>

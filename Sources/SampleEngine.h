@@ -10,6 +10,7 @@
 #include <map>
 #include <string>
 #include "Engine/OpenGL/EngineGL.h"
+#include "Effects/Blur/Blur.h"
 
 
 class SampleEngine : public EngineGL

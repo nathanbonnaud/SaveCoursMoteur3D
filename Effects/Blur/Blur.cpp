@@ -29,11 +29,13 @@ Blur::~Blur()
 	delete blur;
 }
 
-
+/*
+	Applique le blur sur le FBO
+*/
 void Blur::apply(GPUFBO *in)
 {
 	glDisable(GL_DEPTH_TEST);
-	in->getColorTexture(0);
+	in->getColorTexture(0)->bind(0);
 	m_ProgramPipeline->bind();
 	drawQuad();
 	m_ProgramPipeline->release();
