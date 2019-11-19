@@ -27,8 +27,8 @@ layout(location = 4) in vec3 Tangent;
 
 out vec3 v_Pos ;
 out vec2 coord;
-out vec3 v_Tangent;
-out vec3 v_Normal;
+out vec3 v_Tangent1;
+out vec3 v_Normal2;
 
 
 void main()
@@ -37,10 +37,10 @@ void main()
 	coord = Texture.xy;
 	vec3 newPosition = Position;
 	gl_Position = MVP * vec4(newPosition, 1.0);
-	v_Tangent = Tangent;
-	v_Normal = Normal;
+	v_Tangent1 = Tangent;
+	v_Normal2 = Normal;
 	// vecteur direction de la lumière ///
-	v_Pos = Position;
+	v_Pos = newPosition;
 	
 	//v_Color = vec4(Texture,1.0);
 

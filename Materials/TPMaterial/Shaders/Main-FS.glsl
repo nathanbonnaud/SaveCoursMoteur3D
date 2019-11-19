@@ -19,8 +19,8 @@ layout(std140) uniform CPU{
 layout (location = 0) out vec4 Color;
 in vec3 v_Pos;
 in vec2 coord;
-in vec3 v_Tangent;
-in vec3 v_Normal;
+in vec3 v_Tangent1;
+in vec3 v_Normal2;
 
 
 void main()
@@ -28,13 +28,14 @@ void main()
 	
 	vec4 colorTmp1 = texture(my_sampler, coord);
 	vec4 colorTmp2 = texture(my_sampler2, coord);
-	//vec4 colorTmp3 = texture(my_sampler3, coord);
+	vec4 colorTmp3 = texture(my_sampler3, coord);
 	vec4 colorTmp4 = texture(my_sampler4, coord);
 	
 	vec3 tempo = (colorTmp2.w * colorTmp2.xyz + (1.0 - colorTmp2.w) * colorTmp1.xyz);
-	
+	vec3 v_Normal = normalize(v_Normal2);
+	vec3 v_Tangent = normalize(v_Tangent1);
 	//vec3 v_Normal = colorTmp3.xyz*2-1;
-	vec3 v_Normal1 = vec3(0,0,colorTmp4.z*2-1);
+	vec3 v_Normal1 = normalize(vec3(0,0,colorTmp4.z*2-1));
 	//vec4 pixel = gl_FragCoord/(v_screenSize.x);
 	//Color = (pixel); 
 
@@ -43,7 +44,7 @@ void main()
 
 	vec3 v_Lum = normalize(v_Pos-pos_lum);
 
-	vec3 new_Normal =v_Normal1;
+	vec3 new_Normal =transpose(new_Repere)*v_Normal;
 
 	vec3 new_vLum = transpose(new_Repere) * v_Lum;
 
@@ -55,7 +56,9 @@ void main()
 	
 	/// Point de vue de la camera //
 	vec3 v_Cam = normalize(v_Pos - pos_cam);
-	vec3 new_V = transpose(new_Repere) * v_Cam;
+
+	//Changement de repère
+	vec3 new_V =v_Cam;
 
 	float cosAngle2 = dot(R, new_V);
 
@@ -64,11 +67,11 @@ void main()
 	vec3 v_Diff = tempo * max(cosAngle, 0);
 
 	// Reflet de la lumiere par rapport à la camera //
-	vec3 v_Final = vec3(0.9, 0.9, 0.8) * pow(max(cosAngle2, 0), 50);
+	vec3 v_Final = vec3(1.0, 1.0, 1.0) * pow(max(cosAngle2, 0), 20);
 
 	/// Ombre de l' "objet" de la lumière envoyé //
 
-	vec3 Lumi = vec3(0.1, 0.1, 0) + v_Diff + v_Final;
+	vec3 Lumi = tempo + v_Diff + v_Final;
 
 	
 	Color = vec4(Lumi, 1.0);

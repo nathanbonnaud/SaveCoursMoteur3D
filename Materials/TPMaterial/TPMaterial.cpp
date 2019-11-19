@@ -67,8 +67,8 @@ void TPMaterial::render(Node *o)
 
 void TPMaterial::update(Node* o,const int elapsed_Time)
 {
-	posCam->Set(Scene::getInstance()->camera()->getFrame()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
-	posLum->Set(Scene::getInstance()->getSceneNode()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
+	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
+	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
 
 	/*
 	t = (int)time(NULL);
