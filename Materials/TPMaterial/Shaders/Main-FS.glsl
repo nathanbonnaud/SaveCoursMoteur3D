@@ -44,7 +44,7 @@ void main()
 
 	vec3 v_Lum = normalize(v_Pos-pos_lum);
 
-	vec3 new_Normal =transpose(new_Repere)*v_Normal;
+	vec3 new_Normal =v_Normal1;
 
 	vec3 new_vLum = transpose(new_Repere) * v_Lum;
 
@@ -67,7 +67,7 @@ void main()
 	vec3 v_Diff = tempo * max(cosAngle, 0);
 
 	// Reflet de la lumiere par rapport à la camera //
-	vec3 v_Final = vec3(1.0, 1.0, 1.0) * pow(max(cosAngle2, 0), 20);
+	vec3 v_Final = vec3(1.0, 1.0, 1.0) * pow(max(cosAngle2, 0), 50);
 
 	/// Ombre de l' "objet" de la lumière envoyé //
 

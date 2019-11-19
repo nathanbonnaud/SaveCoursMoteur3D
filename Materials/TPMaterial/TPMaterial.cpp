@@ -28,6 +28,7 @@ TPMaterial::TPMaterial(std::string name):
 	mySampler4 = fp->uniforms()->getGPUsampler("my_sampler4");
 	mySampler4->Set(myTexture4->getHandle());
 
+	
 	color = vp->uniforms()->getGPUvec3("CPU_color");
 	modelViewProj = vp->uniforms()->getGPUmat4("MVP");
 	color->Set(glm::vec3(0.2, 0.8, 0.6));

@@ -11,7 +11,6 @@ class Blur : public EffectGL
 
 		virtual void apply(GPUFBO *in);
 		virtual void displayInterface();
-
 		
 
 
@@ -19,6 +18,9 @@ class Blur : public EffectGL
 	protected:
 		
 		GLProgram *vp;
+		GLProgram* fp;
+		GPUsampler* blur;
+
 		
 
 };

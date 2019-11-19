@@ -23,8 +23,7 @@ class SampleEngine : public EngineGL
 		virtual void animate(const int elapsedTime);
 
 		GPUFBO* myFilter;
-		GPUTexture2D* myText;
-		
+		Blur* blur;
 
 	protected:
 	
