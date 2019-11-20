@@ -24,7 +24,7 @@ TPMaterial::TPMaterial(std::string name):
 	mySampler3->Set(myTexture3->getHandle());
 
 	/* 4eme Texture*/
-	GPUTexture2D* myTexture4 = new GPUTexture2D(ressourceTexPath + "brick2_parallax.png");
+	GPUTexture2D* myTexture4 = new GPUTexture2D(ressourceTexPath + "bricks2_parallax.png");
 	mySampler4 = fp->uniforms()->getGPUsampler("my_sampler4");
 	mySampler4->Set(myTexture4->getHandle());
 
