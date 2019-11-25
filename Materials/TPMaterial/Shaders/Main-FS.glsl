@@ -42,7 +42,7 @@ void main()
 	vec3 v_BiTangent = cross(v_Normal, v_Tangent);
 	mat3 new_Repere = mat3(v_Tangent, v_BiTangent,v_Normal);
 
-	vec3 v_Lum = normalize(v_Pos-pos_lum);
+	vec3 v_Lum = normalize(pos_lum -v_Pos);
 
 	vec3 new_Normal =v_Normal1;
 
@@ -55,9 +55,10 @@ void main()
 	vec3 R = reflect(new_vLum, new_Normal);
 	
 	/// Point de vue de la camera //
-	vec3 v_Cam = normalize(v_Pos - pos_cam);
+	vec3 v_Cam = normalize(pos_cam - v_Pos);
 
 	//Changement de repère
+
 	vec3 new_V =v_Cam;
 
 	float cosAngle2 = dot(R, new_V);
@@ -71,7 +72,7 @@ void main()
 
 	/// Ombre de l' "objet" de la lumière envoyé //
 
-	vec3 Lumi = tempo + v_Diff + v_Final;
+	vec3 Lumi = (0.1,0.1,0) + v_Diff + v_Final;
 
 	
 	Color = vec4(Lumi, 1.0);
