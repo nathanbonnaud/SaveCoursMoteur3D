@@ -10,7 +10,8 @@
 #include <map>
 #include <string>
 #include "Engine/OpenGL/EngineGL.h"
-#include "Effects/Blur/Blur.h"
+
+#include "mainEffect.h"
 
 
 class SampleEngine : public EngineGL
@@ -23,8 +24,9 @@ class SampleEngine : public EngineGL
 		virtual void render();
 		virtual void animate(const int elapsedTime);
 
-		GPUFBO* myFilter;
-		Blur* blur;
+		GPUFBO* fbo_in;
+		GPUFBO* fbo_out;
+		mainEffect* main_Effect;
 
 	protected:
 	

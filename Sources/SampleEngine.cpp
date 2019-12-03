@@ -8,7 +8,6 @@ EngineGL overloaded for custom rendering
 #include "Engine/Base/NodeCollectors/FCCollector.h"
 
 #include "Materials/TPMaterial/TPMaterial.h"
-#include "Effects/Blur/Blur.h"
 
 #include "GPUResources/GPUInfo.h"
 
@@ -31,10 +30,12 @@ bool SampleEngine::init(std::string filename)
 {
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
-	myFilter = Scene::getInstance()->getResource<GPUFBO>("Filter");
-	myFilter->createTexture2DAttachments(1024, 1024);
-
-	blur = Scene::getInstance()->getEffect<Blur>("Effects");
+	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
+	fbo_in->createTexture2DAttachments(1024, 1024);
+	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
+	fbo_out->createTexture2DAttachments(1024, 1024);
+	
+	main_Effect = new mainEffect("Main");
 	//Création d'un objet, méthode condensée
 	//addObject("Bunny",ressourceObjPath + "Bunny.obj",material);
 
@@ -54,8 +55,7 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
-	myFilter->enable();
-	
+	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (unsigned int i = 0; i < renderedNodes->nodes.size(); i++)
 		renderedNodes->nodes[i]->render();
@@ -63,9 +63,9 @@ void SampleEngine::render ()
 	drawBBAndLight();
 	
 
-	myFilter->disable();
-	myFilter->display();
-	blur->apply(myFilter);
+	fbo_in->disable();
+	fbo_out->display();
+	main_Effect->apply(fbo_in, fbo_out);
 
 }
 
