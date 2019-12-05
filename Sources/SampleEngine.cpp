@@ -31,9 +31,9 @@ bool SampleEngine::init(std::string filename)
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
 	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
-	fbo_in->createTexture2DAttachments(1024, 1024);
+	fbo_in->createTexture2DAttachments(2048, 2048);
 	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
-	fbo_out->createTexture2DAttachments(1024, 1024);
+	fbo_out->createTexture2DAttachments(2048, 2048);
 	
 	main_Effect = new mainEffect("Main");
 	//Création d'un objet, méthode condensée
@@ -41,8 +41,9 @@ bool SampleEngine::init(std::string filename)
 
 	//Création d'un objet, méthode détaillée
 	Node* bunny = scene->getNode("bunny");
-	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Bunny.obj"));
-	bunny->frame()->scale(glm::vec3(30.0));
+	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
+	bunny->frame()->scale(glm::vec3(1.65));
+	bunny->frame()->translate(glm::vec3(0, -3.0, 0));
 	bunny->setMaterial(material);
 	scene->getSceneNode()->adopt(bunny);
 

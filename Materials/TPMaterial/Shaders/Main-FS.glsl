@@ -3,15 +3,11 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
-#include "/Materials/Common/Lighting/Lighting"
-#line 6 
-
 /* récupère les textures dans le GPU */
 layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
-	sampler2D my_sampler3;
-	sampler2D my_sampler4;
+	
 	vec3 pos_lum;
 	vec3 pos_cam;
 };
@@ -28,14 +24,11 @@ void main()
 	
 	vec4 colorTmp1 = texture(my_sampler, coord);
 	vec4 colorTmp2 = texture(my_sampler2, coord);
-	vec4 colorTmp3 = texture(my_sampler3, coord);
-	vec4 colorTmp4 = texture(my_sampler4, coord);
 	
-	vec3 tempo = (colorTmp2.w * colorTmp2.xyz + (1.0 - colorTmp2.w) * colorTmp1.xyz);
 	vec3 v_Normal = normalize(v_Normal2);
 	vec3 v_Tangent = normalize(v_Tangent1);
 	//vec3 v_Normal = colorTmp3.xyz*2-1;
-	vec3 v_Normal1 = normalize(vec3(0,0,colorTmp4.z*2-1));
+	vec3 v_Normal1 = normalize(vec3(0,0,colorTmp2));
 	//vec4 pixel = gl_FragCoord/(v_screenSize.x);
 	//Color = (pixel); 
 
@@ -65,7 +58,7 @@ void main()
 
 
 	/// Lumière de l' "objet" avec la lumière envoyé//
-	vec3 v_Diff = tempo * max(cosAngle, 0);
+	vec3 v_Diff = colorTmp1.xyz * max(cosAngle, 0);
 
 	// Reflet de la lumiere par rapport à la camera //
 	vec3 v_Final = vec3(1.0, 1.0, 1.0) * pow(max(cosAngle2, 0), 50);

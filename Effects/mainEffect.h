@@ -19,16 +19,15 @@ protected:
 	GLProgram* vp_Base;
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
+	GLProgram* fp_simple;
 	GPUFBO* effect_1;
 	GPUFBO* effect_2;
+	GPUFBO* effect_3;
+	GPUFBO* effect_4;
+	GPUFBO* effect_5;
 	GPUsampler* var1;
 	GPUsampler* var2;
 	GPUsampler* var3;
 	GPUsampler* var4;
-	GPUsampler* var5;
 	
-	
-
-
-
 };

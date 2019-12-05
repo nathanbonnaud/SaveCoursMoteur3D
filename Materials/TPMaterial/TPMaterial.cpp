@@ -9,25 +9,15 @@ TPMaterial::TPMaterial(std::string name):
 	MaterialGL(name,"TPMaterial")
 {
 	/*1ere Texture*/
-	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "bricks2_color.jpg");
+	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "golemtex2.jpeg");
 	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
 	mySampler->Set(myTexture->getHandle());
 
 	/* 2eme Texture*/
-	GPUTexture2D* myTexture2 = new GPUTexture2D(ressourceTexPath + "Bunny2.png");
+	GPUTexture2D* myTexture2 = new GPUTexture2D(ressourceTexPath + "golemnormal.png");
 	mySampler2 = fp->uniforms()->getGPUsampler("my_sampler2");
 	mySampler2->Set(myTexture2->getHandle());
 
-	/* 3eme Texture*/
-	GPUTexture2D* myTexture3 = new GPUTexture2D(ressourceTexPath + "Bunny_nm.jpg");
-	mySampler3 = fp->uniforms()->getGPUsampler("my_sampler3");
-	mySampler3->Set(myTexture3->getHandle());
-
-	/* 4eme Texture*/
-
-	GPUTexture2D* myTexture4 = new GPUTexture2D(ressourceTexPath + "bricks2_parallax.png");
-	mySampler4 = fp->uniforms()->getGPUsampler("my_sampler4");
-	mySampler4->Set(myTexture4->getHandle());
 
 	
 	color = vp->uniforms()->getGPUvec3("CPU_color");

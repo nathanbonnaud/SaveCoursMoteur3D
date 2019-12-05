@@ -15,28 +15,30 @@ mainEffect::mainEffect(std::string name) :
 	/*
 		Fragments.
 	*/
-	fp_action1 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
-	fp_action2 = new GLProgram(this->m_ClassName + "-Bloom", GL_FRAGMENT_SHADER);
+
+	/*
+		Bloom.
+	*/
+	fp_action1 = new GLProgram(this->m_ClassName + "-GetLumi", GL_FRAGMENT_SHADER);
+	fp_action2 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
 
 
 	/*
 		Samplers.	
 	*/
-	var1 = fp_action1->uniforms()->getGPUsampler("my_sampler_blur");
-	var1->Set(0);
+	var1 = fp_action1->uniforms()->getGPUsampler("fboIn");
 	var2 = fp_action2->uniforms()->getGPUsampler("fboIn");
+	//var3 = fp_simple->uniforms()->getGPUsampler("fboIn");
+	var1->Set(0);
 	var2->Set(0);
-	var3 = fp_action2->uniforms()->getGPUsampler("fboIn1");
-	var3->Set(0);
-	var4 = fp_action2->uniforms()->getGPUsampler("fboIn2");
-	var4->Set(0);
-	var5 = fp_action2->uniforms()->getGPUsampler("fboIn");
-	var5->Set(0);
-
+	//var3->Set(0);
+	
 
 	effect_1 = Scene::getInstance()->getResource<GPUFBO>("FBO intérmédiaire1");;
-	effect_1->createTexture2DAttachments(1024, 1024);
+	effect_1->createTexture2DAttachments(2048, 2048);
 
+
+	
 }
 mainEffect::~mainEffect()
 {
@@ -64,7 +66,7 @@ void mainEffect::displayInterface()
 
 
 void mainEffect::Bloom(GPUFBO* in, GPUFBO* out) {
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action1);
+	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
 
 	effect_1->enable();
 
@@ -75,7 +77,7 @@ void mainEffect::Bloom(GPUFBO* in, GPUFBO* out) {
 
 	effect_1->disable();
 
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
+	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action1);
 
 	out->enable();
 
@@ -85,5 +87,7 @@ void mainEffect::Bloom(GPUFBO* in, GPUFBO* out) {
 	m_ProgramPipeline->release();
 
 	out->disable();
+
+
 }
 
