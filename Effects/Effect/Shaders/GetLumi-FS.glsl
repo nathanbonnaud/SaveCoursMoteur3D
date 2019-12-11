@@ -7,9 +7,13 @@ in vec3 texCoord;
 layout (location = 0) out vec4 Color;
 
 void main()
-{	
-		Color = texture(fboIn,texCoord.xy) +texture(fboIn,texCoord.xy) + texture(fboIn,texCoord.xy);
-
+{		
+		vec4 myColor = texture(fboIn,texCoord.xy);
+		if ( myColor.r > 0.05&& myColor.g > 0.05 && myColor.b >0.05){
+			Color = myColor;
+		}else{
+			Color = vec4(0.,0.,0.,1.);
+		}
 }
 
 
