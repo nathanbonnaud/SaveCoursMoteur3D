@@ -66,7 +66,6 @@ void SampleEngine::render ()
 
 	fbo_in->disable();
 	fbo_out->display();
-
 	main_Effect->apply(fbo_in, fbo_out);
 
 }

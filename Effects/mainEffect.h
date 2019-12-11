@@ -10,6 +10,7 @@ public:
 	virtual void apply(GPUFBO* in,GPUFBO* out);
 	virtual void displayInterface();
 	void Bloom(GPUFBO* in, GPUFBO* out);
+	void Lumi(GPUFBO* in, GPUFBO* out);
 
 
 
@@ -20,6 +21,7 @@ protected:
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
 	GLProgram* fp_simple;
+	GLProgram* fp_lumi;
 	GPUFBO* effect_1;
 	GPUFBO* effect_1_1;
 	GPUFBO* effect_1_2;
@@ -30,7 +32,6 @@ protected:
 	GPUsampler* var2;
 	GPUsampler* var3;
 	GPUsampler* var4;
-	
-	GPUsampler* baseSample;
+	GPUsampler* var5;
 	
 };

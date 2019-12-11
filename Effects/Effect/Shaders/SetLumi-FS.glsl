@@ -11,6 +11,7 @@ layout (location = 0) out vec4 Color;
 
 void main()
 {
-	Color =texture(fboIn, texCoord.xy);
-
+	
+	Color =(texture(fboIn, texCoord.xy)+texture(fboIn, texCoord.xy));
+	
 }
