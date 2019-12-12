@@ -41,12 +41,21 @@ bool SampleEngine::init(std::string filename)
 
 	//Création d'un objet, méthode détaillée
 	Node* bunny = scene->getNode("bunny");
-	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
-	bunny->frame()->scale(glm::vec3(1.65));
-	bunny->frame()->translate(glm::vec3(0, -3.0, 0));
+	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Death2.obj"));
+	/*
+		Golem
+	*/
+	//bunny->frame()->scale(glm::vec3(1.65));
+	//bunny->frame()->translate(glm::vec3(0, -3.0, 0));
+
+	/*
+		DeathStroke
+	*/
+	bunny->frame()->scale(glm::vec3(7));
+
+
 	bunny->setMaterial(material);
 	scene->getSceneNode()->adopt(bunny);
-
 
 	setUpEngine();
 	LOG_INFO << "initialisation complete" << std::endl;

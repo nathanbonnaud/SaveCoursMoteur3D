@@ -9,7 +9,7 @@ TPMaterial::TPMaterial(std::string name):
 	MaterialGL(name,"TPMaterial")
 {
 	/*1ere Texture*/
-	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "golemtex2.jpeg");
+	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "Death1.jpg");
 	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
 	mySampler->Set(myTexture->getHandle());
 
@@ -29,6 +29,8 @@ TPMaterial::TPMaterial(std::string name):
 	height->Set(1025);
 	posLum = fp->uniforms()->getGPUvec3("pos_lum");
 	posCam=fp->uniforms()->getGPUvec3("pos_cam");
+
+
 
 	// Timer //
 

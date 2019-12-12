@@ -4,6 +4,9 @@
 #extension GL_ARB_bindless_texture : enable
 
 uniform sampler2D fboIn;
+layout(std140) uniform CPU{
+		float coeff;
+};
 
 in vec3 texCoord;
 layout (location = 0) out vec4 Color;
@@ -12,6 +15,6 @@ layout (location = 0) out vec4 Color;
 void main()
 {
 	
-	Color =(texture(fboIn, texCoord.xy)+texture(fboIn, texCoord.xy));
+	Color =(texture(fboIn, texCoord.xy)*coeff);
 	
 }

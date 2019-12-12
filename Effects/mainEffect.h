@@ -9,14 +9,15 @@ public:
 
 	virtual void apply(GPUFBO* in,GPUFBO* out);
 	virtual void displayInterface();
-	void Bloom(GPUFBO* in, GPUFBO* out);
-	void Lumi(GPUFBO* in, GPUFBO* out);
-
+	void Bloom1(GPUFBO* in, GPUFBO* out);
+	void oneEffect(GPUFBO* in, GPUFBO* out,GLProgram* effect, GPUFBO* bind);
+	
 
 
 
 protected:
-
+	GPUint* timer;
+	GPUfloat* coeffLumi;
 	GLProgram* vp_Base;
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
@@ -28,6 +29,7 @@ protected:
 	GPUFBO* effect_1_3;
 	GPUFBO* effect_1_4;
 	GPUFBO* effect_2;
+	GPUFBO* effect_3;
 	GPUsampler* var1;
 	GPUsampler* var2;
 	GPUsampler* var3;

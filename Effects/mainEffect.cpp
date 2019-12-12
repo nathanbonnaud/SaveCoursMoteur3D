@@ -2,12 +2,12 @@
 #include "Engine/Base/Node.h"
 #include "Engine/Base/Engine.h"
 
-
+int coeff;
 
 mainEffect::mainEffect(std::string name) :
 	EffectGL(name, "Effect")
 {
-	
+	coeff = 30;
 	/*
 		Vertex.
 	*/
@@ -22,6 +22,8 @@ mainEffect::mainEffect(std::string name) :
 	fp_action2 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
 	fp_simple = new GLProgram(this->m_ClassName + "-FinBl", GL_FRAGMENT_SHADER);
 	fp_lumi = new GLProgram(this->m_ClassName + "-SetLumi", GL_FRAGMENT_SHADER);
+	//fp_aura = new GLProgram(this->m_ClassName + "-SetLumi", GL_FRAGMENT_SHADER);
+	
 
 
 	/*
@@ -33,13 +35,17 @@ mainEffect::mainEffect(std::string name) :
 	var2 = fp_action2->uniforms()->getGPUsampler("fboIn");
 	var3 = fp_simple->uniforms()->getGPUsampler("fboIn");
 	var4 = fp_simple->uniforms()->getGPUsampler("fboBase");
-	var5 = fp_lumi->uniforms()->getGPUsampler("fboIn");
+	var5 = fp_simple->uniforms()->getGPUsampler("fboIn");
 	var1->Set(0);
 	var2->Set(0);
 	var3->Set(0);
 	var4->Set(1);
 	var5->Set(0);
 	
+	timer = fp_simple->uniforms()->getGPUint("timer");
+	timer->Set(0);
+	coeffLumi = fp_lumi->uniforms()->getGPUfloat("coeff");
+	coeffLumi->Set(1);
 
 	/*
 		Bloom.
@@ -73,8 +79,27 @@ void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 
 	// On garde le même Vertex pour l'instant
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
-	Bloom(in, out);
+
+	/*
+		Mon timer pour les animations.
+	*/
+
 	
+	if (timer->getValue() > FBO_WIDTH) {
+		timer->Set(0);
+		coeff += coeff/6;
+
+	}else {
+		timer->Set(timer->getValue() + coeff);
+	}
+
+	if (timer->getValue() > FBO_WIDTH - 100) {
+		coeffLumi->Set(coeffLumi->getValue()+0.2);
+	}
+	
+	oneEffect(in, in,fp_lumi,NULL);
+	Bloom1(in, out);
+
 	glEnable(GL_DEPTH_TEST);
 
 }
@@ -83,83 +108,29 @@ void mainEffect::displayInterface()
 
 }
 
-void mainEffect::Lumi(GPUFBO* in, GPUFBO* out){
-	out->enable();
+void mainEffect::oneEffect(GPUFBO* in, GPUFBO* out,GLProgram* effect,GPUFBO* bind ) {
+	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, effect);
 
+	out->enable();
+	if (bind != NULL) {
+		bind->bindColorTexture(1);
+	}
 	in->bindColorTexture(0);
 	m_ProgramPipeline->bind();
 	drawQuad();
 	m_ProgramPipeline->release();
 
 	out->disable();
+
 }
 
-void mainEffect::Bloom(GPUFBO* in, GPUFBO* out) {
 
-	Lumi(in, in);
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action1);
-
-	effect_1->enable();
-
-	in->bindColorTexture(0);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	effect_1->disable();
-
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
-
-	effect_2->enable();
-
-	effect_1->bindColorTexture(0);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	effect_2->disable();
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
-
-	effect_1_1->enable();
-
-	effect_2->bindColorTexture(0);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	effect_1_1->disable();m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
-
-	effect_1_2->enable();
-
-	effect_1_1->bindColorTexture(0);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	effect_1_2->disable();m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
-
-	effect_1_3->enable();
-
-	effect_1_2->bindColorTexture(0);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	effect_1_3->disable();m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_action2);
-
-	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp_simple);
-
-	out->enable();
-
-	effect_1_3->bindColorTexture(0);
-	in->bindColorTexture(1);
-	m_ProgramPipeline->bind();
-	drawQuad();
-	m_ProgramPipeline->release();
-
-	out->disable();
-
-
-
+void mainEffect::Bloom1(GPUFBO* in, GPUFBO* out) {
+	oneEffect(in, effect_1, fp_action1,NULL);
+	oneEffect(effect_1, effect_2, fp_action2,NULL);
+	oneEffect(effect_2, effect_1_1, fp_action2,NULL);
+	oneEffect(effect_1_1, effect_1_2, fp_action2,NULL);
+	oneEffect(effect_1_2, effect_1_3, fp_action2,NULL);
+	oneEffect(effect_1_3, out, fp_simple,in);
 }
 
