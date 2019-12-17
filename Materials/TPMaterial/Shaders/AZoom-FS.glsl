@@ -22,10 +22,6 @@ in vec3 v_Normal2;
 void main()
 {
 
-
-
-	vec4 colBase = texture(my_sampler,coord.xy);
-	
-	Color = vec4(colBase.xyz,0.75);
+	Color = vec4(vec3(1,1,0),0.5);
 
 }

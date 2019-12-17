@@ -57,8 +57,6 @@ void Aura::render(Node *o)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
 	modelViewProj->Set(o->frame()->getTransformMatrix());
 	
 	if (m_ProgramPipeline)
@@ -67,7 +65,6 @@ void Aura::render(Node *o)
 		o->drawGeometry(GL_TRIANGLES);
 		m_ProgramPipeline->release();
 	}
-	glDisable(GL_CULL_FACE);
 
 	glDisable(GL_BLEND);
 }

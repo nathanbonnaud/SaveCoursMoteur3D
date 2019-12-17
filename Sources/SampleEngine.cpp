@@ -35,7 +35,7 @@ bool SampleEngine::init(std::string filename)
 	Aura* material2 = new Aura("TPMaterial2");
 	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
 	fbo_in->createTexture2DAttachments(2048, 2048);
-	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
+	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO entrée");
 	fbo_inter->createTexture2DAttachments(2048, 2048);
 	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
 	fbo_out->createTexture2DAttachments(2048, 2048);
@@ -57,8 +57,8 @@ bool SampleEngine::init(std::string filename)
 	bunny->frame()->scale(glm::vec3(1.65));
 	bunny->frame()->translate(glm::vec3(0, -3.0, 0));
 
-	bunny2->frame()->scale(glm::vec3(2));
-	bunny2->frame()->translate(glm::vec3(0, -3.0,0));
+	bunny2->frame()->scale(glm::vec3(1.85,1.75,1.78));
+	bunny2->frame()->translate(glm::vec3(0,-3.05,0));
 
 
 	/*
@@ -83,19 +83,39 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
+
 	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderedNodes->nodes[0]->render();
-	renderedNodes->nodes[1]->render();
 
+	renderedNodes->nodes[1]->render();
 	main_Effect->Aura(fbo_in, fbo_in);
 
+	drawBBAndLight();
 
 	fbo_in->disable();
+	
+	
+	fbo_inter->enable();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	renderedNodes->nodes[0]->render();
+	main_Effect->apply(fbo_inter, fbo_inter);
 
 	drawBBAndLight();
+
+	fbo_inter->disable();
 	
+
+	fbo_out->enable();
+
+	fbo_inter->display();
 	fbo_in->display();
+
+	fbo_out->disable();
+	fbo_out->display();
+
+
+
 
 }
 

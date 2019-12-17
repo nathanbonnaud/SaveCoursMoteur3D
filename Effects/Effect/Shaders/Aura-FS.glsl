@@ -14,12 +14,6 @@ in vec3 texCoord2;
 
 void main()
 {
-	vec4 Tex1 = texture(fboIn,texCoord1.xy);
-	vec4 Tex2 = texture(fboBase,texCoord2.xy);
-	if (Tex2.xyz == vec3(1,1,1)){
-		Color = Tex1;
-	}else{
-		Color = Tex2;
-	}
+	Color = vec4(1,0,0,1);
 
 }

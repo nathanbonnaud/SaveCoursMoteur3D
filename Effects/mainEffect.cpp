@@ -83,7 +83,7 @@ void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 	/*
 		Mon timer pour les animations.
 	*/
-	/*
+	
 	if (coeff < 1500) {
 		if (timer->getValue() > FBO_WIDTH) {
 			timer->Set(0);
@@ -98,7 +98,6 @@ void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 			coeffLumi->Set(coeffLumi->getValue() + 0.1);
 		}
 	}
-	*/
 	oneEffect(in, in,fp_lumi,NULL);
 	Bloom1(in, out);
 
@@ -140,8 +139,7 @@ void mainEffect::Bloom1(GPUFBO* in, GPUFBO* out) {
 void mainEffect::Aura(GPUFBO* in, GPUFBO* out) {
 	glDisable(GL_DEPTH_TEST);
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
-
-	coeffBlur1->Set(16);
+	coeffBlur1->Set(8);
 	oneEffect(in, out, fp_action2, NULL);
 	glEnable(GL_DEPTH_TEST);
 
