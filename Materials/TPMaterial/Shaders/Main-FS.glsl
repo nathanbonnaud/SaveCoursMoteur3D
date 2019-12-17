@@ -65,7 +65,7 @@ void main()
 
 	/// Ombre de l' "objet" de la lumière envoyé //
 
-	vec3 Lumi = (0.1,0.1,0) + v_Diff + v_Final;
+	vec3 Lumi = (0.1,0.1,0) + v_Diff + v_Final*0.3;
 
 	
 	Color = vec4(Lumi, 1.0);

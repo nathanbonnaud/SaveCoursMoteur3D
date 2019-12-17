@@ -1,13 +1,20 @@
-#include "TPMaterial.h"
+#include "Aura.h"
 #include "Engine/Base/Node.h"
 #include "Engine/Base/Scene.h"
 #include <time.h>
 
 
 
-TPMaterial::TPMaterial(std::string name):
+Aura::Aura(std::string name):
 	MaterialGL(name,"TPMaterial")
 {
+	
+	vp = new GLProgram(this->m_ClassName + "-FZoom", GL_VERTEX_SHADER);
+	fp = new GLProgram(this->m_ClassName + "-AZoom", GL_FRAGMENT_SHADER);
+	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, fp);
+	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp);
+	
+
 	/*1ere Texture*/
 	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "golemtex2.jpeg");
 	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
@@ -36,19 +43,22 @@ TPMaterial::TPMaterial(std::string name):
 
 	//timer = vp->uniforms()->getGPUfloat("timer");
 }
-TPMaterial::~TPMaterial()
+Aura::~Aura()
 {
 
 }
 
-void TPMaterial::setColor(glm::vec4 &c)
+void Aura::setColor(glm::vec4 &c)
 {
 	
 }
 
-void TPMaterial::render(Node *o)
+void Aura::render(Node *o)
 {
-
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	modelViewProj->Set(o->frame()->getTransformMatrix());
 	
 	if (m_ProgramPipeline)
@@ -57,9 +67,12 @@ void TPMaterial::render(Node *o)
 		o->drawGeometry(GL_TRIANGLES);
 		m_ProgramPipeline->release();
 	}
+	glDisable(GL_CULL_FACE);
+
+	glDisable(GL_BLEND);
 }
 
-void TPMaterial::update(Node* o,const int elapsed_Time)
+void Aura::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));

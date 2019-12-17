@@ -8,6 +8,8 @@ EngineGL overloaded for custom rendering
 #include "Engine/Base/NodeCollectors/FCCollector.h"
 
 #include "Materials/TPMaterial/TPMaterial.h"
+#include "Materials/TPMaterial/Aura.h"
+
 
 #include "GPUResources/GPUInfo.h"
 
@@ -30,8 +32,11 @@ bool SampleEngine::init(std::string filename)
 {
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
+	Aura* material2 = new Aura("TPMaterial2");
 	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
 	fbo_in->createTexture2DAttachments(2048, 2048);
+	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
+	fbo_inter->createTexture2DAttachments(2048, 2048);
 	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
 	fbo_out->createTexture2DAttachments(2048, 2048);
 	
@@ -41,22 +46,35 @@ bool SampleEngine::init(std::string filename)
 
 	//Création d'un objet, méthode détaillée
 	Node* bunny = scene->getNode("bunny");
-	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Death2.obj"));
+	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
+	Node* bunny2 = scene->getNode("bunny2");
+	bunny2->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
+
 	/*
 		Golem
 	*/
-	//bunny->frame()->scale(glm::vec3(1.65));
-	//bunny->frame()->translate(glm::vec3(0, -3.0, 0));
+	
+	bunny->frame()->scale(glm::vec3(1.65));
+	bunny->frame()->translate(glm::vec3(0, -3.0, 0));
+
+	bunny2->frame()->scale(glm::vec3(2));
+	bunny2->frame()->translate(glm::vec3(0, -3.0,0));
+
 
 	/*
 		DeathStroke
 	*/
+	/*
 	bunny->frame()->scale(glm::vec3(7));
 
-
+	bunny2->frame()->scale(glm::vec3(7.5));
+	bunny2->frame()->translate(glm::vec3(0, 0, -5));
+	*/
 	bunny->setMaterial(material);
+	bunny2->setMaterial(material2);
 	scene->getSceneNode()->adopt(bunny);
-
+	scene->getSceneNode()->adopt(bunny2);
+	
 	setUpEngine();
 	LOG_INFO << "initialisation complete" << std::endl;
 	return(true);
@@ -67,15 +85,17 @@ void SampleEngine::render ()
 {
 	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (unsigned int i = 0; i < renderedNodes->nodes.size(); i++)
-		renderedNodes->nodes[i]->render();
-	
-	drawBBAndLight();
-	
+	renderedNodes->nodes[0]->render();
+	renderedNodes->nodes[1]->render();
+
+	main_Effect->Aura(fbo_in, fbo_in);
+
 
 	fbo_in->disable();
-	fbo_out->display();
-	main_Effect->apply(fbo_in, fbo_out);
+
+	drawBBAndLight();
+	
+	fbo_in->display();
 
 }
 

@@ -10,6 +10,7 @@ public:
 	virtual void apply(GPUFBO* in,GPUFBO* out);
 	virtual void displayInterface();
 	void Bloom1(GPUFBO* in, GPUFBO* out);
+	void Aura(GPUFBO* in, GPUFBO* out);
 	void oneEffect(GPUFBO* in, GPUFBO* out,GLProgram* effect, GPUFBO* bind);
 	
 
@@ -17,12 +18,15 @@ public:
 
 protected:
 	GPUint* timer;
+	GPUint* coeffBlur1;
 	GPUfloat* coeffLumi;
 	GLProgram* vp_Base;
+	GLProgram* vp_Zoom;
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
 	GLProgram* fp_simple;
 	GLProgram* fp_lumi;
+	GLProgram* fp_aura;
 	GPUFBO* effect_1;
 	GPUFBO* effect_1_1;
 	GPUFBO* effect_1_2;
@@ -35,5 +39,6 @@ protected:
 	GPUsampler* var3;
 	GPUsampler* var4;
 	GPUsampler* var5;
+	GPUsampler* var6;
 	
 };

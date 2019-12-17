@@ -12,6 +12,7 @@ mainEffect::mainEffect(std::string name) :
 		Vertex.
 	*/
 	vp_Base = new GLProgram(this->m_ClassName + "-Base", GL_VERTEX_SHADER);
+	vp_Zoom = new GLProgram(this->m_ClassName + "-Zoom", GL_VERTEX_SHADER);
 
 	/*
 		Fragments.
@@ -22,7 +23,6 @@ mainEffect::mainEffect(std::string name) :
 	fp_action2 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
 	fp_simple = new GLProgram(this->m_ClassName + "-FinBl", GL_FRAGMENT_SHADER);
 	fp_lumi = new GLProgram(this->m_ClassName + "-SetLumi", GL_FRAGMENT_SHADER);
-	//fp_aura = new GLProgram(this->m_ClassName + "-SetLumi", GL_FRAGMENT_SHADER);
 	
 
 
@@ -35,12 +35,13 @@ mainEffect::mainEffect(std::string name) :
 	var2 = fp_action2->uniforms()->getGPUsampler("fboIn");
 	var3 = fp_simple->uniforms()->getGPUsampler("fboIn");
 	var4 = fp_simple->uniforms()->getGPUsampler("fboBase");
-	var5 = fp_simple->uniforms()->getGPUsampler("fboIn");
+
+	coeffBlur1 = fp_action2->uniforms()->getGPUint("n");
 	var1->Set(0);
 	var2->Set(0);
 	var3->Set(0);
 	var4->Set(1);
-	var5->Set(0);
+
 	
 	timer = fp_simple->uniforms()->getGPUint("timer");
 	timer->Set(0);
@@ -76,27 +77,28 @@ mainEffect::~mainEffect()
 void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 {
 	glDisable(GL_DEPTH_TEST);
-
 	// On garde le même Vertex pour l'instant
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
 
 	/*
 		Mon timer pour les animations.
 	*/
+	/*
+	if (coeff < 1500) {
+		if (timer->getValue() > FBO_WIDTH) {
+			timer->Set(0);
+			coeff += coeff / 7;
 
-	
-	if (timer->getValue() > FBO_WIDTH) {
-		timer->Set(0);
-		coeff += coeff/6;
+		}
+		else {
+			timer->Set(timer->getValue() + coeff);
+		}
 
-	}else {
-		timer->Set(timer->getValue() + coeff);
+		if (timer->getValue() > FBO_WIDTH - 100) {
+			coeffLumi->Set(coeffLumi->getValue() + 0.1);
+		}
 	}
-
-	if (timer->getValue() > FBO_WIDTH - 100) {
-		coeffLumi->Set(coeffLumi->getValue()+0.2);
-	}
-	
+	*/
 	oneEffect(in, in,fp_lumi,NULL);
 	Bloom1(in, out);
 
@@ -126,6 +128,7 @@ void mainEffect::oneEffect(GPUFBO* in, GPUFBO* out,GLProgram* effect,GPUFBO* bin
 
 
 void mainEffect::Bloom1(GPUFBO* in, GPUFBO* out) {
+	coeffBlur1->Set(8);
 	oneEffect(in, effect_1, fp_action1,NULL);
 	oneEffect(effect_1, effect_2, fp_action2,NULL);
 	oneEffect(effect_2, effect_1_1, fp_action2,NULL);
@@ -133,4 +136,15 @@ void mainEffect::Bloom1(GPUFBO* in, GPUFBO* out) {
 	oneEffect(effect_1_2, effect_1_3, fp_action2,NULL);
 	oneEffect(effect_1_3, out, fp_simple,in);
 }
+
+void mainEffect::Aura(GPUFBO* in, GPUFBO* out) {
+	glDisable(GL_DEPTH_TEST);
+	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
+
+	coeffBlur1->Set(16);
+	oneEffect(in, out, fp_action2, NULL);
+	glEnable(GL_DEPTH_TEST);
+
+}
+
 

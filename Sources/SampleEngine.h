@@ -25,6 +25,7 @@ class SampleEngine : public EngineGL
 		virtual void animate(const int elapsedTime);
 
 		GPUFBO* fbo_in;
+		GPUFBO* fbo_inter;
 		GPUFBO* fbo_out;
 		mainEffect* main_Effect;
 
