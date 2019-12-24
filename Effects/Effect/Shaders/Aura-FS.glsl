@@ -14,6 +14,6 @@ in vec3 texCoord2;
 
 void main()
 {
-	Color = vec4(1,0,0,1);
+	Color = vec4(0,0,0,1);
 
 }

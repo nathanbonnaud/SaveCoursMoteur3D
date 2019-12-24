@@ -21,12 +21,9 @@ protected:
 	GPUint* coeffBlur1;
 	GPUfloat* coeffLumi;
 	GLProgram* vp_Base;
-	GLProgram* vp_Zoom;
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
 	GLProgram* fp_simple;
-	GLProgram* fp_lumi;
-	GLProgram* fp_aura;
 	GPUFBO* effect_1;
 	GPUFBO* effect_1_1;
 	GPUFBO* effect_1_2;

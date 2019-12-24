@@ -12,7 +12,6 @@ mainEffect::mainEffect(std::string name) :
 		Vertex.
 	*/
 	vp_Base = new GLProgram(this->m_ClassName + "-Base", GL_VERTEX_SHADER);
-	vp_Zoom = new GLProgram(this->m_ClassName + "-Zoom", GL_VERTEX_SHADER);
 
 	/*
 		Fragments.
@@ -22,7 +21,6 @@ mainEffect::mainEffect(std::string name) :
 	fp_action1 = new GLProgram(this->m_ClassName + "-GetLumi", GL_FRAGMENT_SHADER);
 	fp_action2 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
 	fp_simple = new GLProgram(this->m_ClassName + "-FinBl", GL_FRAGMENT_SHADER);
-	fp_lumi = new GLProgram(this->m_ClassName + "-SetLumi", GL_FRAGMENT_SHADER);
 	
 
 
@@ -45,8 +43,7 @@ mainEffect::mainEffect(std::string name) :
 	
 	timer = fp_simple->uniforms()->getGPUint("timer");
 	timer->Set(0);
-	coeffLumi = fp_lumi->uniforms()->getGPUfloat("coeff");
-	coeffLumi->Set(1);
+	
 
 	/*
 		Bloom.
@@ -79,27 +76,6 @@ void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 	glDisable(GL_DEPTH_TEST);
 	// On garde le même Vertex pour l'instant
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
-
-	/*
-		Mon timer pour les animations.
-	*/
-	
-	if (coeff < 1500) {
-		if (timer->getValue() > FBO_WIDTH) {
-			timer->Set(0);
-			coeff += coeff / 7;
-
-		}
-		else {
-			timer->Set(timer->getValue() + coeff);
-		}
-
-		if (timer->getValue() > FBO_WIDTH - 100) {
-			coeffLumi->Set(coeffLumi->getValue() + 0.1);
-		}
-	}
-	oneEffect(in, in,fp_lumi,NULL);
-	Bloom1(in, out);
 
 	glEnable(GL_DEPTH_TEST);
 

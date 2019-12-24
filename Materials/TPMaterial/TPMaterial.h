@@ -19,12 +19,14 @@ class TPMaterial : public MaterialGL
 		GPUvec3* color;
 		GPUvec3* posLum;
 		GPUvec3* posCam;
-		//GPUfloat* timer;
+		GPUfloat* coeff;
 		GPUint* width;
 		GPUint* height;
 		
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;
+
+		int timer;
 
 };
 

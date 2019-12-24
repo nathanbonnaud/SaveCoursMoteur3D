@@ -1,7 +1,6 @@
 #version 430
 
 #extension GL_ARB_shading_language_include : enable
-#include "/Materials/Common/Common"
 #line 6 
 
 
@@ -12,7 +11,7 @@ layout(std140) uniform CPU
 
 	vec3 CPU_color;
 	mat4 MVP;
-	//float timer;
+	float timer;
 };
 
  out gl_PerVertex {
@@ -29,7 +28,7 @@ out vec3 v_Pos ;
 out vec2 coord;
 out vec3 v_Tangent1;
 out vec3 v_Normal2;
-
+out vec4 v_Color;
 
 void main()
 {	
@@ -39,26 +38,20 @@ void main()
 	gl_Position = MVP * vec4(newPosition, 1.0);
 	v_Tangent1 = Tangent;
 	v_Normal2 = Normal;
-	// vecteur direction de la lumière ///
 	v_Pos = newPosition;
 	
 	//v_Color = vec4(Texture,1.0);
 
 	/// BI GOUT //
+	if ( Position.y > timer -0.5 && Position.y < timer+0.5) {
 
-	/*
-	if (Position.z < 0) {
-
-		vec3 newPosition = Position;
-		newPosition += vec3(0.5,0,0);
-		gl_Position = MVP * vec4(newPosition, 1.0);
-		v_Color = vec4(gl_Position.xyz/gl_Position.w, 1.0);
+		v_Color = vec4(vec3(1,0,5),0.5);
 	}
 	else {
-		v_Color = vec4(abs(Normal),1.0);
+		v_Color = vec4(vec3(0,0.8,1),0.5);
 
 	}
-	*/
+	
 
 }
 

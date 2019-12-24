@@ -16,11 +16,13 @@ class Aura : public MaterialGL
 		GPUvec3* color;
 		GPUvec3* posLum;
 		GPUvec3* posCam;
-		//GPUfloat* timer;
+		GPUfloat* timer;
 		GPUint* width;
 		GPUint* height;
 		
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;
+
+		float coeff;
 
 };

@@ -17,11 +17,12 @@ in vec3 v_Pos;
 in vec2 coord;
 in vec3 v_Tangent1;
 in vec3 v_Normal2;
+in vec4 v_Color;
 
 
 void main()
-{
-
-	Color = vec4(vec3(1,1,0),0.5);
+{	
+	
+	Color = v_Color;
 
 }

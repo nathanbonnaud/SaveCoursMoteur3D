@@ -30,9 +30,10 @@ SampleEngine::~SampleEngine()
 
 bool SampleEngine::init(std::string filename)
 {
+
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
-	Aura* material2 = new Aura("TPMaterial2");
+	Aura* material2 = new Aura("Aura");
 	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
 	fbo_in->createTexture2DAttachments(2048, 2048);
 	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO entrée");
@@ -45,9 +46,9 @@ bool SampleEngine::init(std::string filename)
 	//addObject("Bunny",ressourceObjPath + "Bunny.obj",material);
 
 	//Création d'un objet, méthode détaillée
-	Node* bunny = scene->getNode("bunny");
+	bunny = scene->getNode("bunny");
 	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
-	Node* bunny2 = scene->getNode("bunny2");
+	bunny2 = scene->getNode("bunny2");
 	bunny2->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
 
 	/*
@@ -61,15 +62,6 @@ bool SampleEngine::init(std::string filename)
 	bunny2->frame()->translate(glm::vec3(0,-3.05,0));
 
 
-	/*
-		DeathStroke
-	*/
-	/*
-	bunny->frame()->scale(glm::vec3(7));
-
-	bunny2->frame()->scale(glm::vec3(7.5));
-	bunny2->frame()->translate(glm::vec3(0, 0, -5));
-	*/
 	bunny->setMaterial(material);
 	bunny2->setMaterial(material2);
 	scene->getSceneNode()->adopt(bunny);
@@ -83,13 +75,13 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
-
+		
 	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	renderedNodes->nodes[1]->render();
 	main_Effect->Aura(fbo_in, fbo_in);
-
+	
 	drawBBAndLight();
 
 	fbo_in->disable();
@@ -97,7 +89,7 @@ void SampleEngine::render ()
 	
 	fbo_inter->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	fbo_in->display();
 	renderedNodes->nodes[0]->render();
 	main_Effect->apply(fbo_inter, fbo_inter);
 
@@ -105,14 +97,7 @@ void SampleEngine::render ()
 
 	fbo_inter->disable();
 	
-
-	fbo_out->enable();
-
 	fbo_inter->display();
-	fbo_in->display();
-
-	fbo_out->disable();
-	fbo_out->display();
 
 
 

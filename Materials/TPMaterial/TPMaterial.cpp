@@ -29,12 +29,13 @@ TPMaterial::TPMaterial(std::string name):
 	height->Set(1025);
 	posLum = fp->uniforms()->getGPUvec3("pos_lum");
 	posCam=fp->uniforms()->getGPUvec3("pos_cam");
-
-
+	
+	coeff = fp->uniforms()->getGPUfloat("coeff");
+	coeff->Set(1);
 
 	// Timer //
 
-	//timer = vp->uniforms()->getGPUfloat("timer");
+	timer = 0;
 }
 TPMaterial::~TPMaterial()
 {
@@ -63,9 +64,8 @@ void TPMaterial::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
-
-	/*
-	t = (int)time(NULL);
-	timer->Set(t);
-	*/
+	if (timer % 5 == 4) {
+		coeff->Set(coeff->getValue()+0.1);
+	}
+	timer++;
 }

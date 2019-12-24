@@ -23,7 +23,9 @@ class SampleEngine : public EngineGL
 		virtual bool init(std::string filename = "");
 		virtual void render();
 		virtual void animate(const int elapsedTime);
-
+		Node* bunny;
+		Node* bunny2;
+		
 		GPUFBO* fbo_in;
 		GPUFBO* fbo_inter;
 		GPUFBO* fbo_out;

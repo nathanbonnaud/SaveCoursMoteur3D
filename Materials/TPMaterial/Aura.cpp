@@ -36,12 +36,14 @@ Aura::Aura(std::string name):
 	height->Set(1025);
 	posLum = fp->uniforms()->getGPUvec3("pos_lum");
 	posCam=fp->uniforms()->getGPUvec3("pos_cam");
-
+	
 
 
 	// Timer //
 
-	//timer = vp->uniforms()->getGPUfloat("timer");
+	timer = vp->uniforms()->getGPUfloat("timer");
+	timer->Set(0);
+	coeff = 0.1;
 }
 Aura::~Aura()
 {
@@ -73,9 +75,17 @@ void Aura::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
+	
+	if (timer->getValue() > 9) {
+		timer->Set(0);
+		if (coeff < 0.5) {
+			coeff = coeff + 0.05;
+		}
+	}
+	else {
+		timer->Set(timer->getValue() + coeff);
+	}
 
-	/*
-	t = (int)time(NULL);
-	timer->Set(t);
-	*/
-}
+	
+	}
+

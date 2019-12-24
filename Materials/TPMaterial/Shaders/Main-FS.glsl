@@ -7,7 +7,7 @@
 layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
-	
+	float coeff;
 	vec3 pos_lum;
 	vec3 pos_cam;
 };
@@ -68,8 +68,7 @@ void main()
 	vec3 Lumi = (0.1,0.1,0) + v_Diff + v_Final*0.3;
 
 	
-	Color = vec4(Lumi, 1.0);
+	Color = vec4(Lumi, 1.0)*coeff;
 
-	//Color = vec4(1.0, 0.0, 1.0, 1.0);
 
 }
