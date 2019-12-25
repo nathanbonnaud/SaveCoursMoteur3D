@@ -32,10 +32,11 @@ TPMaterial::TPMaterial(std::string name):
 	
 	coeff = fp->uniforms()->getGPUfloat("coeff");
 	coeff->Set(1);
-
+	
 	// Timer //
 
 	timer = 0;
+	coeffLumi = 0.05;
 }
 TPMaterial::~TPMaterial()
 {
@@ -64,8 +65,13 @@ void TPMaterial::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
-	if (timer % 5 == 4) {
-		coeff->Set(coeff->getValue()+0.1);
+	if (timer > 100) {
+		if (timer % 40 == 39) {
+			coeffLumi = coeffLumi * 1.3;
+		}
+	}
+	if (timer % 7 == 6) {
+		coeff->Set(coeff->getValue()+coeffLumi);
 	}
 	timer++;
 }

@@ -15,17 +15,6 @@ Aura::Aura(std::string name):
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp);
 	
 
-	/*1ere Texture*/
-	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "golemtex2.jpeg");
-	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
-	mySampler->Set(myTexture->getHandle());
-
-	/* 2eme Texture*/
-	GPUTexture2D* myTexture2 = new GPUTexture2D(ressourceTexPath + "golemnormal.png");
-	mySampler2 = fp->uniforms()->getGPUsampler("my_sampler2");
-	mySampler2->Set(myTexture2->getHandle());
-
-
 	
 	color = vp->uniforms()->getGPUvec3("CPU_color");
 	modelViewProj = vp->uniforms()->getGPUmat4("MVP");
@@ -79,7 +68,7 @@ void Aura::update(Node* o,const int elapsed_Time)
 	if (timer->getValue() > 9) {
 		timer->Set(0);
 		if (coeff < 0.5) {
-			coeff = coeff + 0.05;
+			coeff = coeff + 0.02;
 		}
 	}
 	else {

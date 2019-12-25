@@ -35,7 +35,6 @@ void main()
 	
 	coord = Texture.xy;
 	vec3 newPosition = Position;
-	gl_Position = MVP * vec4(newPosition, 1.0);
 	v_Tangent1 = Tangent;
 	v_Normal2 = Normal;
 	v_Pos = newPosition;
@@ -43,15 +42,21 @@ void main()
 	//v_Color = vec4(Texture,1.0);
 
 	/// BI GOUT //
-	if ( Position.y > timer -0.5 && Position.y < timer+0.5) {
-
+	if ( Position.y > timer -0.25 && Position.y < timer+0.25) {
 		v_Color = vec4(vec3(1,0,5),0.5);
-	}
+		if(v_Pos.x < 0){
+			newPosition.x = newPosition.x -0.2;
+		}else{
+			newPosition.x = newPosition.x +0.2;
+
+		}
+		}
 	else {
 		v_Color = vec4(vec3(0,0.8,1),0.5);
 
 	}
-	
+		gl_Position = MVP * vec4(newPosition, 1.0);
+
 
 }
 

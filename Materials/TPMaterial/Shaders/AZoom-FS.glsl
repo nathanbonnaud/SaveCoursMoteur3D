@@ -5,8 +5,6 @@
 
 /* récupère les textures dans le GPU */
 layout(std140) uniform CPU{
-	sampler2D my_sampler;
-	sampler2D my_sampler2;
 	
 	vec3 pos_lum;
 	vec3 pos_cam;
