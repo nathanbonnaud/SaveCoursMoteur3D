@@ -52,7 +52,7 @@ void main()
 		}
 		}
 	else {
-		v_Color = vec4(vec3(0,0.8,1),0.5);
+		v_Color = vec4(vec3(0,0.8,1),0.65);
 
 	}
 		gl_Position = MVP * vec4(newPosition, 1.0);

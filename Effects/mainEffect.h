@@ -10,7 +10,11 @@ public:
 	virtual void apply(GPUFBO* in,GPUFBO* out);
 	virtual void displayInterface();
 	void Bloom1(GPUFBO* in, GPUFBO* out);
-	void Aura(GPUFBO* in, GPUFBO* out);
+	void Flou(GPUFBO* in, GPUFBO* out);
+	void GetLumi(GPUFBO* in, GPUFBO* out);
+	void FinLumi(GPUFBO* in, GPUFBO* out, GPUFBO* tmp);
+	void Circle1(GPUFBO* in, GPUFBO* out);
+	void Transition(GPUFBO* in, GPUFBO* out, bool sens);
 	void oneEffect(GPUFBO* in, GPUFBO* out,GLProgram* effect, GPUFBO* bind);
 	
 
@@ -19,11 +23,18 @@ public:
 protected:
 	GPUint* timer;
 	GPUint* coeffBlur1;
+	GPUfloat* timecircle;
 	GPUfloat* coeffLumi;
+	GPUfloat* transp;
+	GPUfloat* transp1;
+	GPUfloat* timeTrans;
+
 	GLProgram* vp_Base;
 	GLProgram* fp_action1;
 	GLProgram* fp_action2;
 	GLProgram* fp_simple;
+	GLProgram* fp_circle;
+	GLProgram* fp_trans;
 	GPUFBO* effect_1;
 	GPUFBO* effect_1_1;
 	GPUFBO* effect_1_2;
@@ -35,7 +46,5 @@ protected:
 	GPUsampler* var2;
 	GPUsampler* var3;
 	GPUsampler* var4;
-	GPUsampler* var5;
-	GPUsampler* var6;
 	
 };

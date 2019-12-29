@@ -14,12 +14,5 @@ layout (location = 0) out vec4 Color;
 
 void main()
 {
-	//if (gl_FragCoord.y > (timer-30) && gl_FragCoord.y <(timer +30)){
-				Color =(texture(fboBase, texCoord.xy)+texture(fboIn, texCoord.xy));
-
-	//}else{			
-				//Color = texture(fboBase,texCoord.xy);
-
-	//}
-	
+	Color =(texture(fboBase, texCoord.xy)+texture(fboIn, texCoord.xy)); 
 }

@@ -66,8 +66,8 @@ void TPMaterial::update(Node* o,const int elapsed_Time)
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
 	if (timer > 100) {
-		if (timer % 40 == 39) {
-			coeffLumi = coeffLumi * 1.3;
+		if (timer % 25 == 24) {
+			coeffLumi = coeffLumi * 1.15;
 		}
 	}
 	if (timer % 7 == 6) {

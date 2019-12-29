@@ -29,8 +29,9 @@ class SampleEngine : public EngineGL
 		GPUFBO* fbo_in;
 		GPUFBO* fbo_inter;
 		GPUFBO* fbo_out;
+		GPUFBO* fbo_out2;
 		mainEffect* main_Effect;
-
+		int timer = 0;
 	protected:
 	
 

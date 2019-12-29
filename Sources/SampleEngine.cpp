@@ -31,6 +31,7 @@ SampleEngine::~SampleEngine()
 bool SampleEngine::init(std::string filename)
 {
 
+
 	//Création d'un materiau de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
 	Aura* material2 = new Aura("Aura");
@@ -40,6 +41,8 @@ bool SampleEngine::init(std::string filename)
 	fbo_inter->createTexture2DAttachments(2048, 2048);
 	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
 	fbo_out->createTexture2DAttachments(2048, 2048);
+	fbo_out2 = Scene::getInstance()->getResource<GPUFBO>("FBO sortiee");
+	fbo_out2->createTexture2DAttachments(2048, 2048);
 	
 	main_Effect = new mainEffect("Main");
 	//Création d'un objet, méthode condensée
@@ -55,11 +58,11 @@ bool SampleEngine::init(std::string filename)
 		Golem
 	*/
 	
-	bunny->frame()->scale(glm::vec3(1.65));
-	bunny->frame()->translate(glm::vec3(0, -3.0, 0));
+	bunny->frame()->scale(glm::vec3(1.50));
+	bunny->frame()->translate(glm::vec3(0, -2.8, 0));
 
-	bunny2->frame()->scale(glm::vec3(1.85,1.75,1.78));
-	bunny2->frame()->translate(glm::vec3(0,-3.05,0));
+	bunny2->frame()->scale(glm::vec3(1.65,1.55,1.68));
+	bunny2->frame()->translate(glm::vec3(0,-2.85,0));
 
 
 	bunny->setMaterial(material);
@@ -67,6 +70,7 @@ bool SampleEngine::init(std::string filename)
 	scene->getSceneNode()->adopt(bunny);
 	scene->getSceneNode()->adopt(bunny2);
 	
+
 	setUpEngine();
 	LOG_INFO << "initialisation complete" << std::endl;
 	return(true);
@@ -75,12 +79,11 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
-		
 	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	renderedNodes->nodes[1]->render();
-	main_Effect->Aura(fbo_in, fbo_in);
+	main_Effect->Flou(fbo_in, fbo_in);
 	
 	drawBBAndLight();
 
@@ -91,16 +94,43 @@ void SampleEngine::render ()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	fbo_in->display();
 	renderedNodes->nodes[0]->render();
-	main_Effect->apply(fbo_inter, fbo_inter);
 
 	drawBBAndLight();
 
 	fbo_inter->disable();
 	
-	fbo_inter->display();
+	if (timer > 650) {
+		fbo_out->enable();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		fbo_inter->display();
+		main_Effect->Circle1(fbo_inter, fbo_out);
 
+		drawBBAndLight();
 
+		fbo_out->disable();
 
+		if (timer > 1300) {
+			fbo_out2->enable();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			fbo_out->display();
+			main_Effect->Transition(fbo_out, fbo_out2,false);
+
+			drawBBAndLight();
+
+			fbo_out2->disable();
+			fbo_out2->display();
+
+		}
+		else {
+			fbo_out->display();
+
+		}
+	}
+	else {
+		fbo_inter->display();
+	}
+	
+	timer++;
 
 }
 
