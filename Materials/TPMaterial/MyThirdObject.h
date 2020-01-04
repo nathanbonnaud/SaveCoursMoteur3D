@@ -20,6 +20,7 @@ class MyThirdObject : public MaterialGL
 		GPUvec3* posCam;
 		GPUint* width;
 		GPUint* height;
+		GPUfloat* timer;
 		
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;

@@ -7,7 +7,7 @@
 layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
-	float coeff;
+	float timer;
 	vec3 pos_lum;
 	vec3 pos_cam;
 };
@@ -21,11 +21,11 @@ in vec3 v_Normal2;
 
 void main()
 {
-	
-	vec4 colorTmp1 = texture(my_sampler, coord);
-	vec4 colorTmp2 = texture(my_sampler2, coord);
-	
-	Color = colorTmp1;
+
+    vec2 p = (v_Pos.xz / vec2(20,20)) - 0.1;	
+	p.x = dot(p,p)*1.1;
+    float sx = .5 * (p.x * p.x * 16. - .6) * sin(69. * p.x - 9.  *timer* .5);
+    Color = vec4(.05, (7. / (420. * abs(p.x - sx))), (32. / (420. * abs(p.y - sx))), 1);
 
 
 }

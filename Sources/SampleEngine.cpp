@@ -70,7 +70,7 @@ bool SampleEngine::init(std::string filename)
 	bunny2->frame()->translate(glm::vec3(0,-3,0));
 
 	bunny3->frame()->scale(glm::vec3(1.3,3,1.3));
-	bunny3->frame()->translate(glm::vec3(0, -3, 0));
+	bunny3->frame()->translate(glm::vec3(-2, -3, -2));
 
 	bunny->setMaterial(material);
 	bunny2->setMaterial(material2);
