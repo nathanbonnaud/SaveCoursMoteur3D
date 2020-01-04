@@ -21,6 +21,7 @@ class MyThirdObject : public MaterialGL
 		GPUint* width;
 		GPUint* height;
 		GPUfloat* timer;
+		GPUfloat* coeff;
 		
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;

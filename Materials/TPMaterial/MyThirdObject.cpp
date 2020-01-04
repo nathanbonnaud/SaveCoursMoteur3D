@@ -37,6 +37,9 @@ MyThirdObject::MyThirdObject(std::string name):
 	posCam=fp->uniforms()->getGPUvec3("pos_cam");
 	timer = fp->uniforms()->getGPUfloat("timer");
 	timer->Set(0);
+	coeff = fp->uniforms()->getGPUfloat("coeff");
+	coeff->Set(0.2);
+
 	
 	
 }
@@ -68,4 +71,8 @@ void MyThirdObject::update(Node* o,const int elapsed_Time)
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
 	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 7, 10), o->frame()));
 	timer->Set(timer->getValue()+0.01);
+	if (coeff->getValue() < 3) {
+		coeff->Set(coeff->getValue() + 0.001);
+
+	}
 }
