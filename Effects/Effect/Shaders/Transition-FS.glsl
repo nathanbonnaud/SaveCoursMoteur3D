@@ -17,7 +17,7 @@ void main( void ) {
 	float time = 1.;
 	vec2 resolution = vec2(2048,2048);
 
-	vec2 p = (gl_FragCoord.xy - 0.3 * resolution) / min(resolution.x-500., resolution.y);
+	vec2 p = (gl_FragCoord.xy - 0.275 * resolution) / min(resolution.x-500., resolution.y);
 	vec3 c = vec3(0., 0., 0.);
 	vec3 lightCol = vec3(1 + 0.09 * tan (6.), 0.23, 1. + 0.04 * tan (3.));
     

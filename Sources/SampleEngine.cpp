@@ -9,6 +9,7 @@ EngineGL overloaded for custom rendering
 
 #include "Materials/TPMaterial/TPMaterial.h"
 #include "Materials/TPMaterial/Aura.h"
+#include "Materials/TPMaterial/MyThirdObject.h"
 
 
 #include "GPUResources/GPUInfo.h"
@@ -32,16 +33,18 @@ bool SampleEngine::init(std::string filename)
 {
 
 
-	//Création d'un materiau de Base
+	//Création d'un material de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
 	Aura* material2 = new Aura("Aura");
+	MyThirdObject* material3 = new MyThirdObject("MyThirdObject");
+
 	fbo_in = Scene::getInstance()->getResource<GPUFBO>("FBO entré");
 	fbo_in->createTexture2DAttachments(2048, 2048);
-	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO entrée");
+	fbo_inter = Scene::getInstance()->getResource<GPUFBO>("FBO e");
 	fbo_inter->createTexture2DAttachments(2048, 2048);
 	fbo_out = Scene::getInstance()->getResource<GPUFBO>("FBO sortie");
 	fbo_out->createTexture2DAttachments(2048, 2048);
-	fbo_out2 = Scene::getInstance()->getResource<GPUFBO>("FBO sortiee");
+	fbo_out2 = Scene::getInstance()->getResource<GPUFBO>("FBO s");
 	fbo_out2->createTexture2DAttachments(2048, 2048);
 	
 	main_Effect = new mainEffect("Main");
@@ -53,22 +56,28 @@ bool SampleEngine::init(std::string filename)
 	bunny->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
 	bunny2 = scene->getNode("bunny2");
 	bunny2->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Golem.obj"));
+	bunny3 = scene->getNode("bunny3");
+	bunny3->setModel(scene->m_Models.get<ModelGL>(ressourceCoreObjPath + "Snow2.obj"));
 
 	/*
 		Golem
 	*/
 	
-	bunny->frame()->scale(glm::vec3(1.50));
-	bunny->frame()->translate(glm::vec3(0, -2.8, 0));
+	bunny->frame()->scale(glm::vec3(1.40));
+	bunny->frame()->translate(glm::vec3(0, -3, 0));
 
-	bunny2->frame()->scale(glm::vec3(1.65,1.55,1.68));
-	bunny2->frame()->translate(glm::vec3(0,-2.85,0));
+	bunny2->frame()->scale(glm::vec3(1.52,1.42,1.53));
+	bunny2->frame()->translate(glm::vec3(0,-3,0));
 
+	bunny3->frame()->scale(glm::vec3(1.3,3,1.3));
+	bunny3->frame()->translate(glm::vec3(0, -3, 0));
 
 	bunny->setMaterial(material);
 	bunny2->setMaterial(material2);
+	bunny3->setMaterial(material3);
 	scene->getSceneNode()->adopt(bunny);
 	scene->getSceneNode()->adopt(bunny2);
+	scene->getSceneNode()->adopt(bunny3);
 	
 
 	setUpEngine();
@@ -81,10 +90,11 @@ void SampleEngine::render ()
 {
 	fbo_in->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	renderedNodes->nodes[2]->render();
 
 	renderedNodes->nodes[1]->render();
 	main_Effect->Flou(fbo_in, fbo_in);
-	
+
 	drawBBAndLight();
 
 	fbo_in->disable();
@@ -93,8 +103,8 @@ void SampleEngine::render ()
 	fbo_inter->enable();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	fbo_in->display();
-	renderedNodes->nodes[0]->render();
 
+	renderedNodes->nodes[0]->render();
 	drawBBAndLight();
 
 	fbo_inter->disable();

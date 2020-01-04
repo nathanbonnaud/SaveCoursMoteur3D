@@ -1,8 +1,4 @@
-/*
- *	(c) XLim, UMR-CNRS
- *	Authors: G.Gilet
- *
- */
+
 
 #ifndef _SAMPLE_ENGINE_H
 #define _SAMPLE_ENGINE_H
@@ -25,6 +21,7 @@ class SampleEngine : public EngineGL
 		virtual void animate(const int elapsedTime);
 		Node* bunny;
 		Node* bunny2;
+		Node* bunny3;
 		
 		GPUFBO* fbo_in;
 		GPUFBO* fbo_inter;

@@ -63,7 +63,6 @@ GobLimApplication::GobLimApplication(int width,int height,std::string name)
     
     m_scene = Scene::getInstance();
 
-    m_clear_color       = ImColor(120, 120, 120);
 	m_display_interface = true;
 
 	m_rotate = m_zoom = m_anim_object = false;		//Trackball

@@ -37,6 +37,7 @@ TPMaterial::TPMaterial(std::string name):
 
 	timer = 0;
 	coeffLumi = 0.05;
+
 }
 TPMaterial::~TPMaterial()
 {
@@ -64,7 +65,7 @@ void TPMaterial::render(Node *o)
 void TPMaterial::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
-	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0, 30, 0), o->frame()));
+	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0,15, 10), o->frame()));
 	if (timer > 100) {
 		if (timer % 25 == 24) {
 			coeffLumi = coeffLumi * 1.15;
@@ -73,5 +74,7 @@ void TPMaterial::update(Node* o,const int elapsed_Time)
 	if (timer % 7 == 6) {
 		coeff->Set(coeff->getValue()+coeffLumi);
 	}
+
+	
 	timer++;
 }
