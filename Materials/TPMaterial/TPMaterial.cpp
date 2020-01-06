@@ -3,7 +3,7 @@
 #include "Engine/Base/Scene.h"
 #include <time.h>
 
-
+float position;
 
 TPMaterial::TPMaterial(std::string name):
 	MaterialGL(name,"TPMaterial")
@@ -33,11 +33,14 @@ TPMaterial::TPMaterial(std::string name):
 	coeff = fp->uniforms()->getGPUfloat("coeff");
 	coeff->Set(1);
 	
+	transition = fp->uniforms()->getGPUint("transition");
+	transition->Set(0);
+	
 	// Timer //
 
 	timer = 0;
 	coeffLumi = 0.05;
-
+	position = 15;
 }
 TPMaterial::~TPMaterial()
 {
@@ -65,16 +68,23 @@ void TPMaterial::render(Node *o)
 void TPMaterial::update(Node* o,const int elapsed_Time)
 {
 	posCam->Set(Scene::getInstance()->camera()->convertPtFrom(glm::vec3(0, 0, 0), o->frame()));
-	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0,15, 10), o->frame()));
-	if (timer > 100) {
-		if (timer % 25 == 24) {
-			coeffLumi = coeffLumi * 1.15;
+	posLum->Set(Scene::getInstance()->frame()->convertPtTo(glm::vec3(0,position, 10), o->frame()));
+	if (timer < 1600) {
+		if (timer > 100) {
+			if (timer % 25 == 24) {
+				coeffLumi = coeffLumi * 1.15;
+			}
+		}
+		if (timer % 7 == 6) {
+			coeff->Set(coeff->getValue() + coeffLumi);
 		}
 	}
-	if (timer % 7 == 6) {
-		coeff->Set(coeff->getValue()+coeffLumi);
-	}
-
 	
+	if (timer == 1600) {
+		coeff->Set(4);
+		transition->Set(1);
+		position = 4;
+
+	}
 	timer++;
 }

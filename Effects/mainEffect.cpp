@@ -1,4 +1,4 @@
-#include "mainEffect.h"
+#include "SampleEngine.h"
 #include "Engine/Base/Node.h"
 #include "Engine/Base/Engine.h"
 
@@ -84,11 +84,10 @@ mainEffect::~mainEffect()
 
 void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 {
-
 	glDisable(GL_DEPTH_TEST);
 	// On garde le même Vertex pour l'instant
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
-	oneEffect(in, out, fp_circle, NULL);
+	Bloom1(in, out);
 	glEnable(GL_DEPTH_TEST);
 
 
@@ -116,7 +115,7 @@ void mainEffect::oneEffect(GPUFBO* in, GPUFBO* out, GLProgram* effect, GPUFBO* b
 
 
 void mainEffect::Bloom1(GPUFBO* in, GPUFBO* out) {
-	coeffBlur1->Set(8);
+	coeffBlur1->Set(6);
 	oneEffect(in, effect_1, fp_action1, NULL);
 	oneEffect(effect_1, effect_2, fp_action2, NULL);
 	oneEffect(effect_2, effect_1_1, fp_action2, NULL);
@@ -143,6 +142,7 @@ void mainEffect::GetLumi(GPUFBO* in, GPUFBO* out) {
 }
 
 void mainEffect::FinLumi(GPUFBO* in, GPUFBO* out, GPUFBO* tmp) {
+	
 	glDisable(GL_DEPTH_TEST);
 	m_ProgramPipeline->useProgramStage(GL_VERTEX_SHADER_BIT, vp_Base);
 	oneEffect(in, out, fp_simple, tmp);
@@ -171,7 +171,7 @@ void mainEffect::Circle1(GPUFBO* in, GPUFBO* out) {
 
 void mainEffect::Transition(GPUFBO* in, GPUFBO* out, bool sens) {
 	if( sens == false){
-		if (transp1->getValue() < 1.) {
+		if (transp1->getValue() < .98) {
 			if ((int)timeTrans->getValue() % 5 == 1) {
 				transp1->Set(transp1->getValue() + 0.02);
 			}
@@ -179,6 +179,14 @@ void mainEffect::Transition(GPUFBO* in, GPUFBO* out, bool sens) {
 		if (timeTrans->getValue() < 225) {
 			timeTrans->Set(timeTrans->getValue() + 0.75);
 		}
+	}
+	else {
+		if ((int)timeTrans->getValue() % 5 == 1) {
+				transp1->Set(transp1->getValue() - 0.02);
+			
+		}
+		timeTrans->Set(timeTrans->getValue() - 0.75);
+		
 	}
 	
 	glDisable(GL_DEPTH_TEST);

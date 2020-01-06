@@ -32,7 +32,7 @@ SampleEngine::~SampleEngine()
 bool SampleEngine::init(std::string filename)
 {
 
-
+	timer = 0;
 	//Création d'un material de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
 	Aura* material2 = new Aura("Aura");
@@ -88,55 +88,79 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
-	fbo_in->enable();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderedNodes->nodes[2]->render();
-
-	renderedNodes->nodes[1]->render();
-	main_Effect->Flou(fbo_in, fbo_in);
-
-	drawBBAndLight();
-
-	fbo_in->disable();
-	
-	
-	fbo_inter->enable();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	fbo_in->display();
-
-	renderedNodes->nodes[0]->render();
-	drawBBAndLight();
-
-	fbo_inter->disable();
-	
-	if (timer > 650) {
-		fbo_out->enable();
+	if (timer < 1650) {
+		fbo_in->enable();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		fbo_inter->display();
-		main_Effect->Circle1(fbo_inter, fbo_out);
+		renderedNodes->nodes[2]->render();
+
+		renderedNodes->nodes[1]->render();
+		main_Effect->Flou(fbo_in, fbo_in);
 
 		drawBBAndLight();
 
-		fbo_out->disable();
+		fbo_in->disable();
 
-		if (timer > 1300) {
-			fbo_out2->enable();
+
+		fbo_inter->enable();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		fbo_in->display();
+
+		renderedNodes->nodes[0]->render();
+		drawBBAndLight();
+
+		fbo_inter->disable();
+
+		if (timer > 650) {
+			fbo_out->enable();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			fbo_out->display();
-			main_Effect->Transition(fbo_out, fbo_out2,false);
+			fbo_inter->display();
+			main_Effect->Circle1(fbo_inter, fbo_out);
 
 			drawBBAndLight();
 
-			fbo_out2->disable();
-			fbo_out2->display();
+			fbo_out->disable();
 
+			if (timer > 1300) {
+				fbo_out2->enable();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				fbo_out->display();
+				main_Effect->Transition(fbo_out, fbo_out2, false);
+
+				drawBBAndLight();
+
+				fbo_out2->disable();
+				fbo_out2->display();
+
+			}
+			else {
+				fbo_out->display();
+
+			}
 		}
 		else {
-			fbo_out->display();
-
+			fbo_inter->display();
 		}
 	}
 	else {
+
+		fbo_in->enable();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderedNodes->nodes[2]->render();
+		renderedNodes->nodes[0]->render();
+		main_Effect->apply(fbo_in, fbo_in);
+		drawBBAndLight();
+
+		fbo_in->disable();
+
+		fbo_inter->enable();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		fbo_in->display();
+		main_Effect->Transition(fbo_inter, fbo_inter , true);
+
+		drawBBAndLight();
+
+		fbo_inter->disable();
+
 		fbo_inter->display();
 	}
 	

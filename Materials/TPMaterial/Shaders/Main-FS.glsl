@@ -8,6 +8,7 @@ layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
 	float coeff;
+	int transition;
 	vec3 pos_lum;
 	vec3 pos_cam;
 };
@@ -65,7 +66,12 @@ void main()
 
 	/// Ombre de l' "objet" de la lumière envoyé //
 
-	vec3 Lumi = (0.1,0.1,0) + v_Diff + v_Final*0.6;
+	vec3 Lumi;
+	if(transition ==0){
+		Lumi = (0.1,0.1,0) + v_Diff + v_Final*0.45;
+	}else{
+		Lumi = (0.1,0.1,0) + v_Diff + v_Final;
+	}
 
 	
 	Color = vec4(Lumi, 1.0)*coeff;

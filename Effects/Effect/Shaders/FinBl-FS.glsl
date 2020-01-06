@@ -14,5 +14,13 @@ layout (location = 0) out vec4 Color;
 
 void main()
 {
-	Color =(texture(fboBase, texCoord.xy)+texture(fboIn, texCoord.xy)); 
+	
+	vec4 color =(texture(fboBase, texCoord.xy)+texture(fboIn, texCoord.xy)); 
+	color = vec4(color.x*0.75,color.y*0.5,color.z*1.4,1);
+
+	if (color.xyz == vec3(1,1,1)){
+		color = vec4(0.5,0,0.5,1);	
+	}
+
+	Color = color;
 }

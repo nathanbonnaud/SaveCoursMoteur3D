@@ -22,6 +22,7 @@ class TPMaterial : public MaterialGL
 		GPUfloat* coeff;
 		GPUint* width;
 		GPUint* height;
+		GPUint* transition;
 		
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;
