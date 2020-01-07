@@ -7,12 +7,7 @@
 
 layout(std140) uniform CPU
 {
-	int w;
-	int h;
-
-	vec3 CPU_color;
 	mat4 MVP;
-	//float timer;
 };
 
  out gl_PerVertex {
@@ -42,24 +37,6 @@ void main()
 	// vecteur direction de la lumière ///
 	v_Pos = newPosition;
 	
-	//v_Color = vec4(Texture,1.0);
-
-	/// BI GOUT //
-
-	/*
-	if (Position.z < 0) {
-
-		vec3 newPosition = Position;
-		newPosition += vec3(0.5,0,0);
-		gl_Position = MVP * vec4(newPosition, 1.0);
-		v_Color = vec4(gl_Position.xyz/gl_Position.w, 1.0);
-	}
-	else {
-		v_Color = vec4(abs(Normal),1.0);
-
-	}
-	*/
-
 }
 
 

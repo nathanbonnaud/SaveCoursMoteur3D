@@ -1,6 +1,9 @@
 #version 420
 
 #extension GL_ARB_shading_language_include : enable
+/*
+	Ce Vextex Shader sert de Vertex Shaders pour tous les effets.
+*/
 
 layout(std140) uniform CPU
 {

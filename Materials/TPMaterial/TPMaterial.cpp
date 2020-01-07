@@ -3,11 +3,17 @@
 #include "Engine/Base/Scene.h"
 #include <time.h>
 
-float position;
-
+/*
+	Cette classe est le material de mon objet de base.
+*/
 TPMaterial::TPMaterial(std::string name):
 	MaterialGL(name,"TPMaterial")
 {
+	/* 
+		Le Fragment et Vertex Shader de cette classe sont Main-VS et Main-FS.
+		C'est dans le Main-FS que tous les effets de lumières sont réalisés.
+	*/
+
 	/*1ere Texture*/
 	GPUTexture2D* myTexture = new GPUTexture2D(ressourceTexPath + "golemtex2.jpeg");
 	mySampler = fp->uniforms()->getGPUsampler("my_sampler");
@@ -20,27 +26,15 @@ TPMaterial::TPMaterial(std::string name):
 
 
 	
-	color = vp->uniforms()->getGPUvec3("CPU_color");
 	modelViewProj = vp->uniforms()->getGPUmat4("MVP");
-	color->Set(glm::vec3(0.2, 0.8, 0.6));
-	width = vp->uniforms()->getGPUint("w");
-	height = vp->uniforms()->getGPUint("h");
-	width->Set(1025);
-	height->Set(1025);
 	posLum = fp->uniforms()->getGPUvec3("pos_lum");
 	posCam=fp->uniforms()->getGPUvec3("pos_cam");
 	
 	coeff = fp->uniforms()->getGPUfloat("coeff");
 	coeff->Set(1);
-	
 	transition = fp->uniforms()->getGPUint("transition");
 	transition->Set(0);
 	
-	// Timer //
-
-	timer = 0;
-	coeffLumi = 0.05;
-	position = 15;
 }
 TPMaterial::~TPMaterial()
 {

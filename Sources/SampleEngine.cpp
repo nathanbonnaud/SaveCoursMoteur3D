@@ -32,7 +32,6 @@ SampleEngine::~SampleEngine()
 bool SampleEngine::init(std::string filename)
 {
 
-	timer = 0;
 	//Création d'un material de Base
 	TPMaterial* material = new TPMaterial("TPMaterial");
 	Aura* material2 = new Aura("Aura");
@@ -69,6 +68,8 @@ bool SampleEngine::init(std::string filename)
 	bunny2->frame()->scale(glm::vec3(1.52,1.42,1.53));
 	bunny2->frame()->translate(glm::vec3(0,-3,0));
 
+
+	/* Sol */
 	bunny3->frame()->scale(glm::vec3(1.3,3,1.3));
 	bunny3->frame()->translate(glm::vec3(-2, -3, -2));
 
@@ -88,6 +89,9 @@ bool SampleEngine::init(std::string filename)
 
 void SampleEngine::render ()
 {
+
+	/* C'est dans cette classe on se lance tous les enchaînements d'effets */
+
 	if (timer < 1650) {
 		fbo_in->enable();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

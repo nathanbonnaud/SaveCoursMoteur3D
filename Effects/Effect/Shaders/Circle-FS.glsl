@@ -3,6 +3,10 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
+/*
+	Ce fragment est le code pour la croix de particules blanches, chaque boucle for suivante
+	Permet de tracer circulairement les particules sur un cercle.
+*/
 
 layout(std140) uniform CPU{
 		float time;

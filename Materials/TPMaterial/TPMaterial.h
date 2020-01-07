@@ -27,10 +27,9 @@ class TPMaterial : public MaterialGL
 		GPUsampler* mySampler2;
 		GPUsampler* mySampler;
 
-		int timer;
-		float timer2;
-		float coeff2;
-		float coeffLumi;
+		int timer = 0;
+		float position = 15;
+		float coeffLumi = 0.05;
 };
 
 #endif

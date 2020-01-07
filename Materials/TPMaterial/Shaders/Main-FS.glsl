@@ -3,12 +3,13 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
+
 /* récupère les textures dans le GPU */
 layout(std140) uniform CPU{
 	sampler2D my_sampler;
 	sampler2D my_sampler2;
 	float coeff;
-	int transition;
+	int transition; //cette variable sert à savoir si on se trouve après la transition à l'aide d'une valeur 0 ou 1.
 	vec3 pos_lum;
 	vec3 pos_cam;
 };

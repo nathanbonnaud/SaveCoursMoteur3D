@@ -1,6 +1,10 @@
 #version 420
 
 
+/*
+	Ce fbo est le 1er fbo du bloom, il recupère la luminosité au dessus d'un seuil.
+*/
+
 uniform sampler2D fboIn;
 
 in vec3 texCoord;

@@ -3,6 +3,10 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
+/*
+	Cette fonction floute toute la scène.
+*/
+
 uniform sampler2D fboIn;
 layout(std140) uniform CPU{
 		int n;

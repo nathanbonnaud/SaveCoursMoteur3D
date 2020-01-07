@@ -6,10 +6,6 @@
 
 layout(std140) uniform CPU
 {
-	int w;
-	int h;
-
-	vec3 CPU_color;
 	mat4 MVP;
 	float timer;
 };
@@ -24,24 +20,15 @@ layout(location = 2) in vec3 Normal;
 layout(location = 3) in vec3 Texture;
 layout(location = 4) in vec3 Tangent;
 
-out vec3 v_Pos ;
-out vec2 coord;
-out vec3 v_Tangent1;
-out vec3 v_Normal2;
 out vec4 v_Color;
 
 void main()
 {	
-	
-	coord = Texture.xy;
 	vec3 newPosition = Position;
-	v_Tangent1 = Tangent;
-	v_Normal2 = Normal;
-	v_Pos = newPosition;
+	vec3 v_Pos = newPosition;
 	
-	//v_Color = vec4(Texture,1.0);
+	/* Le code suivant sert à produire la monter d'énergie à partir du timer */
 
-	/// BI GOUT //
 	if ( Position.y > timer -0.25 && Position.y < timer+0.25) {
 		v_Color = vec4(vec3(1,0,5),0.5);
 		if(v_Pos.x < 0){

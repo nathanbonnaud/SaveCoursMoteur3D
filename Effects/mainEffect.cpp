@@ -1,13 +1,13 @@
-#include "SampleEngine.h"
+#include "mainEffect.h"
 #include "Engine/Base/Node.h"
 #include "Engine/Base/Engine.h"
 
-int coeff;
+/*Cette classe stock tous les effets appliqués sur les fbos*/
+
 
 mainEffect::mainEffect(std::string name) :
 	EffectGL(name, "Effect")
 {
-	coeff = 30;
 	/*
 		Vertex.
 	*/
@@ -17,17 +17,19 @@ mainEffect::mainEffect(std::string name) :
 		Fragments.
 	*/
 
-	//bloom
+	/* Les trois effets suivants sont utilisés pour le bloom*/
 	fp_action1 = new GLProgram(this->m_ClassName + "-GetLumi", GL_FRAGMENT_SHADER);
 	fp_action2 = new GLProgram(this->m_ClassName + "-Blur", GL_FRAGMENT_SHADER);
 	fp_simple = new GLProgram(this->m_ClassName + "-FinBl", GL_FRAGMENT_SHADER);
+
+	/* Les deux effets suivants sont utilisés pour la transition dans mon animation*/
 	fp_circle = new GLProgram(this->m_ClassName + "-Circle", GL_FRAGMENT_SHADER);
 	fp_trans = new GLProgram(this->m_ClassName + "-Transition", GL_FRAGMENT_SHADER);
 	
 
 
 	/*
-		Samplers.	
+		Variables uniformes.	
 	*/
 
 
@@ -39,8 +41,11 @@ mainEffect::mainEffect(std::string name) :
 	transp = fp_circle->uniforms()->getGPUfloat("trans");
 	transp1 = fp_trans->uniforms()->getGPUfloat("trans");
 	timeTrans = fp_trans->uniforms()->getGPUfloat("timer");
-	
 	coeffBlur1 = fp_action2->uniforms()->getGPUint("n");
+
+	/* 
+		Initialisation des variables uniformes	
+	*/
 	var1->Set(0);
 	var2->Set(0);
 	var3->Set(0);
@@ -57,8 +62,7 @@ mainEffect::mainEffect(std::string name) :
 	
 
 	/*
-		Bloom.
-		Toutes les effect_* suivant sont utlisés pour accentué l'effet de luminosité du bloom
+		Tous les fbos suivants sont des fbos intermédiaires pour faire marcher les flous du bloom.
 	*/
 	effect_1 = Scene::getInstance()->getResource<GPUFBO>("FBO intérmédiaire 1");
 	effect_1->createTexture2DAttachments(2048, 2048);
@@ -82,6 +86,7 @@ mainEffect::~mainEffect()
 
 }
 
+/* La fonction apply() lance le bloom*/
 void mainEffect::apply(GPUFBO* in, GPUFBO* out)
 {
 	glDisable(GL_DEPTH_TEST);
@@ -97,6 +102,11 @@ void mainEffect::displayInterface()
 
 }
 
+/* 
+	Cette fonction oneEffect est une routine de lancement de fbo. 
+	Tous les fonctions suivant lance cette fonction oneEffect avec des Fragments differents selon
+	l'effet voulu.
+*/
 void mainEffect::oneEffect(GPUFBO* in, GPUFBO* out, GLProgram* effect, GPUFBO* bind) {
 	m_ProgramPipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, effect);
 
@@ -150,9 +160,14 @@ void mainEffect::FinLumi(GPUFBO* in, GPUFBO* out, GPUFBO* tmp) {
 
 }
 
+/*
+	Tranp et Transp1 sont des compteurs servant pour la transparence.
+	TimeTrans et timecircle sont des timers pour l'animation.
+*/
+
 void mainEffect::Circle1(GPUFBO* in, GPUFBO* out) {
 
-	if (transp->getValue() < 0.45) {
+	if (transp->getValue() < 0.6) {
 		if ((int)timecircle->getValue() % 5 == 1) {
 			transp->Set(transp->getValue() + 0.005);
 		}

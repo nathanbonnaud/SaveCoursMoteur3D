@@ -21,6 +21,8 @@ public:
 
 
 protected:
+
+	int coeff = 30;
 	GPUint* timer;
 	GPUint* coeffBlur1;
 	GPUfloat* timecircle;
@@ -41,7 +43,6 @@ protected:
 	GPUFBO* effect_1_3;
 	GPUFBO* effect_1_4;
 	GPUFBO* effect_2;
-	GPUFBO* effect_3;
 	GPUsampler* var1;
 	GPUsampler* var2;
 	GPUsampler* var3;

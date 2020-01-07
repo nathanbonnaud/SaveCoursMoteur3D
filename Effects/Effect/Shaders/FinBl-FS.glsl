@@ -3,6 +3,12 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
+
+/*
+	Cette foncion est la fin du fbo elle combine tous les fbos déja combinés (luminosité,flou x 4)
+	et augmente le violet de la scène.
+*/
+
 uniform sampler2D fboIn;
 uniform	sampler2D fboBase;
 layout(std140) uniform CPU{

@@ -13,16 +13,8 @@ class Aura : public MaterialGL
 		virtual void render(Node *o);
 		virtual void update(Node* o,const int elapsedTime);
 		GPUmat4* modelViewProj;
-		GPUvec3* color;
-		GPUvec3* posLum;
-		GPUvec3* posCam;
 		GPUfloat* timer;
-		GPUint* width;
-		GPUint* height;
-		
-		GPUsampler* mySampler2;
-		GPUsampler* mySampler;
 
-		float coeff;
+		float coeff = 0.1;
 
 };

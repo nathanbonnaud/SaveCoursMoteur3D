@@ -4,6 +4,10 @@
 #extension GL_ARB_shading_language_include : enable
 #extension GL_ARB_bindless_texture : enable
 
+/*
+	C'est la même fonction que Circle-FS avec quelques variables adaptées.
+*/
+
 layout(std140) uniform CPU{
 		float timer;
 		float trans;

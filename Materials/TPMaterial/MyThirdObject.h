@@ -16,15 +16,8 @@ class MyThirdObject : public MaterialGL
 		virtual void update(Node* o,const int elapsedTime);
 		GPUmat4* modelViewProj;
 		GPUvec3* color;
-		GPUvec3* posLum;
-		GPUvec3* posCam;
-		GPUint* width;
-		GPUint* height;
 		GPUfloat* timer;
 		GPUfloat* coeff;
-		
-		GPUsampler* mySampler2;
-		GPUsampler* mySampler;
 
 };
 
